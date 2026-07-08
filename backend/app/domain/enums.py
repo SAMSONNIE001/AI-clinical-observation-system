@@ -13,3 +13,8 @@ class BehaviourType(str, Enum):
     AGGRESSIVE_MOVEMENT = "aggressive_movement"
     CHOKING_SIMULATION = "choking_simulation"
     PROLONGED_INACTIVITY = "prolonged_inactivity"
+
+
+class DatasetCategory(str, Enum):
+    NORMAL = "normal"
+    RISK = "risk"

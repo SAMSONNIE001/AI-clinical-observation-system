@@ -77,8 +77,15 @@ The first phase builds the system that the AI components will plug into. Model t
 - `GET /health`
 - `GET /api/v1/health`
 - `POST /api/v1/videos/upload`
+- `POST /api/v1/dataset/videos`
+- `GET /api/v1/dataset/videos`
+- `POST /api/v1/dataset/annotations`
+- `GET /api/v1/dataset/annotations/{video_id}`
 
 The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
+
+Dataset endpoints register metadata for self-simulated videos and store labelled
+time ranges for behaviour annotations.
 
 ## Research Direction
 
