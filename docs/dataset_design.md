@@ -1,7 +1,17 @@
 # Simulated Dataset Design
 
-Version 1 of the dataset focuses on behaviours that can be recorded safely in a
-controlled volunteer setting.
+Version 1 of the dataset focuses on short self-simulated videos recorded safely
+in a controlled volunteer setting.
+
+The Version 1 labelling rule is:
+
+```text
+One short video = one primary behaviour label
+```
+
+Each clip should contain one main incident or behaviour from start to finish. For
+example, `pacing_001.mp4` should be labelled `pacing`, and `fall_001.mp4` should
+be labelled `fall`.
 
 ## Behaviour Classes
 
@@ -39,9 +49,27 @@ Each uploaded simulated video should be registered with:
 - `recorded_at`
 - `notes`
 
-## Annotation Fields
+## Version 1 Labelling
 
-Each labelled behaviour segment should include:
+For Version 1 model training, the video metadata provides the training label:
+
+- `video_id`
+- `filename`
+- `behaviour_type`
+- `category`
+- `scenario_name`
+- `duration_seconds`
+- `environment`
+
+This avoids the overhead of manually timestamping each incident while the
+dataset is still small and controlled.
+
+## Optional Version 2 Annotation Fields
+
+Time-range annotations are optional and should be used later if a single video
+contains multiple behaviours or if we need frame-level evaluation.
+
+Each labelled behaviour segment can include:
 
 - `video_id`
 - `behaviour`
@@ -51,5 +79,6 @@ Each labelled behaviour segment should include:
 - `annotated_by`
 - `notes`
 
-The annotation time range identifies where the behaviour occurs inside a video.
-This is the information the later training pipeline will need for model tuning.
+The annotation time range identifies where a behaviour occurs inside a longer or
+mixed-behaviour video. It is not required for the Version 1 one-label-per-video
+training workflow.

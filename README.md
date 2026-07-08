@@ -19,7 +19,7 @@ The goal is not to replace healthcare workers, but to support safer and more eff
 
 ## Dataset
 
-The first version will use self-simulated video data recorded in controlled scenes. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, choking simulation, and prolonged inactivity.
+The first version will use short self-simulated video clips recorded in controlled scenes. Each clip should contain one main incident or behaviour and one video-level label. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, choking simulation, and prolonged inactivity.
 
 Highly sensitive behaviours such as ligature attempts and self-harm are outside the Version 1 dataset scope. They should only be revisited after ethics, safeguarding, simulation design, and clinical review requirements are clear.
 
@@ -84,8 +84,9 @@ The first phase builds the system that the AI components will plug into. Model t
 
 The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
 
-Dataset endpoints register metadata for self-simulated videos and store labelled
-time ranges for behaviour annotations.
+Dataset endpoints register video-level labels for self-simulated videos. Time
+range annotations are available for later Version 2 work, but they are optional
+for the first training dataset.
 
 ## Research Direction
 
