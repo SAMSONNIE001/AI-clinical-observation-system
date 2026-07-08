@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 
-from app.api.v1.routes import health
+from app.api.v1.routes import health, videos
 
 
 api_router = APIRouter()
 api_router.include_router(health.router, tags=["health"])
+api_router.include_router(videos.router, tags=["videos"])

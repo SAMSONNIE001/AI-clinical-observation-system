@@ -72,6 +72,14 @@ AI-Clinical-Observation-System
 
 The first phase builds the system that the AI components will plug into. Model training comes later, after the API and data flow are stable.
 
+## Current API
+
+- `GET /health`
+- `GET /api/v1/health`
+- `POST /api/v1/videos/upload`
+
+The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
+
 ## Research Direction
 
 Human-in-the-loop AI-assisted clinical observation for mental health and care settings using computer vision and automated documentation.
