@@ -2,10 +2,15 @@ from fastapi import APIRouter, status
 
 from app.models.video_annotation import VideoAnnotation
 from app.models.video_record import VideoRecord
-from app.schemas.dataset import VideoAnnotationCreate, VideoRecordCreate
+from app.schemas.dataset import (
+    DatasetExportResponse,
+    VideoAnnotationCreate,
+    VideoRecordCreate,
+)
 from app.services.dataset_service import (
     create_video_annotation,
     create_video_record,
+    export_training_manifest,
     list_video_annotations,
     list_video_records,
 )
@@ -43,3 +48,12 @@ def register_video_annotation(payload: VideoAnnotationCreate) -> VideoAnnotation
 )
 def get_video_annotations(video_id: str) -> list[VideoAnnotation]:
     return list_video_annotations(video_id=video_id)
+
+
+@router.post(
+    "/exports/training-manifest",
+    response_model=DatasetExportResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def export_dataset_training_manifest() -> DatasetExportResponse:
+    return export_training_manifest()

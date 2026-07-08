@@ -64,6 +64,23 @@ For Version 1 model training, the video metadata provides the training label:
 This avoids the overhead of manually timestamping each incident while the
 dataset is still small and controlled.
 
+## Training Manifest Export
+
+The training manifest is exported as JSONL, with one line per short labelled
+video. Each line includes:
+
+- `video_id`
+- `filename`
+- `label`
+- `category`
+- `scenario_name`
+- `duration_seconds`
+- `environment`
+- `camera_angle`
+
+This file is the first training handoff format. Later training scripts should
+read the manifest instead of guessing labels from filenames.
+
 ## Optional Version 2 Annotation Fields
 
 Time-range annotations are optional and should be used later if a single video

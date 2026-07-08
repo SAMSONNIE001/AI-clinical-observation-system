@@ -9,6 +9,7 @@ class Settings:
     api_v1_prefix: str = "/api/v1"
     upload_dir: Path = Path("storage/uploads/videos")
     dataset_metadata_dir: Path = Path("storage/dataset")
+    dataset_export_dir: Path = Path("storage/dataset/exports")
     max_video_size_mb: int = 500
 
 

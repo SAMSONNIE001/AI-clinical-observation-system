@@ -81,6 +81,7 @@ The first phase builds the system that the AI components will plug into. Model t
 - `GET /api/v1/dataset/videos`
 - `POST /api/v1/dataset/annotations`
 - `GET /api/v1/dataset/annotations/{video_id}`
+- `POST /api/v1/dataset/exports/training-manifest`
 - `POST /api/v1/detection/predict`
 - `POST /api/v1/observation-notes/generate`
 
@@ -89,6 +90,9 @@ The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and s
 Dataset endpoints register video-level labels for self-simulated videos. Time
 range annotations are available for later Version 2 work, but they are optional
 for the first training dataset.
+
+The training manifest export creates a JSONL file from the video-level labels so
+future model training can consume the dataset consistently.
 
 The detection endpoint currently returns a stub response. It defines the API
 contract that the later trained model will plug into.

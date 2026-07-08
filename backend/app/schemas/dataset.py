@@ -1,4 +1,5 @@
 from datetime import datetime
+from pathlib import Path
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -33,3 +34,11 @@ class VideoAnnotationCreate(BaseModel):
         if self.end_time_seconds <= self.start_time_seconds:
             raise ValueError("end_time_seconds must be greater than start_time_seconds")
         return self
+
+
+class DatasetExportResponse(BaseModel):
+    export_id: str
+    format: str
+    record_count: int
+    export_path: Path
+    created_at: datetime
