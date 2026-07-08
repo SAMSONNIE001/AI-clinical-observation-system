@@ -1,8 +1,37 @@
 ﻿# AI-Assisted Clinical Observation System
 
-AI-assisted clinical observation platform for mental health, care home, and supported living settings.
+This project explores the use of computer vision to support clinical observation in mental health units, care homes, and supported living services.
 
-The system is intended to support healthcare staff by detecting clinically relevant behaviours from video, raising alerts for high-risk events, and generating draft observation notes for staff review.
+The system is designed to assist staff by detecting selected behaviours from video, generating alerts, and producing draft observation notes for staff review.
+
+## Aim
+
+The goal is not to replace healthcare workers, but to support safer and more efficient observation practice through human-in-the-loop AI.
+
+## Planned Features
+
+- Behaviour detection from simulated video scenes
+- Fall, pacing, inactivity, sleeping, and distress-pattern detection
+- Staff alert dashboard
+- AI-generated draft observation notes
+- Human review and approval workflow
+- Simulated behavioural dataset for research
+
+## Dataset
+
+The first version will use self-simulated video data recorded in controlled scenes. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, choking simulation, and prolonged inactivity.
+
+Highly sensitive behaviours such as ligature attempts and self-harm are outside the Version 1 dataset scope. They should only be revisited after ethics, safeguarding, simulation design, and clinical review requirements are clear.
+
+## Tech Stack
+
+- Python
+- FastAPI
+- OpenCV
+- MediaPipe or YOLO
+- PostgreSQL
+- React
+- GitHub Actions
 
 ## Project Structure
 
@@ -12,6 +41,7 @@ AI-Clinical-Observation-System
 │   ├── app
 │   │   ├── api
 │   │   ├── core
+│   │   ├── domain
 │   │   ├── models
 │   │   ├── schemas
 │   │   ├── services
@@ -41,3 +71,7 @@ AI-Clinical-Observation-System
 8. Model training with simulated dataset
 
 The first phase builds the system that the AI components will plug into. Model training comes later, after the API and data flow are stable.
+
+## Research Direction
+
+Human-in-the-loop AI-assisted clinical observation for mental health and care settings using computer vision and automated documentation.
