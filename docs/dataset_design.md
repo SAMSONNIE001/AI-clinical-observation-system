@@ -82,3 +82,10 @@ Each labelled behaviour segment can include:
 The annotation time range identifies where a behaviour occurs inside a longer or
 mixed-behaviour video. It is not required for the Version 1 one-label-per-video
 training workflow.
+
+## Detection Pipeline Status
+
+The backend includes a stub detection endpoint so the API contract exists before
+model training starts. It does not infer behaviour yet. The real model will be
+connected after the Version 1 labelled clips are collected and prepared for
+training.
