@@ -82,6 +82,7 @@ The first phase builds the system that the AI components will plug into. Model t
 - `POST /api/v1/dataset/annotations`
 - `GET /api/v1/dataset/annotations/{video_id}`
 - `POST /api/v1/detection/predict`
+- `POST /api/v1/observation-notes/generate`
 
 The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
 
@@ -91,6 +92,9 @@ for the first training dataset.
 
 The detection endpoint currently returns a stub response. It defines the API
 contract that the later trained model will plug into.
+
+The observation note endpoint generates draft staff-review notes from a labelled
+behaviour event. Notes are not final clinical records until reviewed by staff.
 
 ## Research Direction
 

@@ -18,3 +18,9 @@ class BehaviourType(str, Enum):
 class DatasetCategory(str, Enum):
     NORMAL = "normal"
     RISK = "risk"
+
+
+class RiskLevel(str, Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"

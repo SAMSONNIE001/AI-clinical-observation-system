@@ -89,3 +89,9 @@ The backend includes a stub detection endpoint so the API contract exists before
 model training starts. It does not infer behaviour yet. The real model will be
 connected after the Version 1 labelled clips are collected and prepared for
 training.
+
+## Observation Notes
+
+The backend can generate draft observation notes from labelled behaviours or
+future predictions. These notes must remain human-in-the-loop: they are drafts
+for staff review, not final clinical documentation.
