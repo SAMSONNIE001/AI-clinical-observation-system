@@ -1,0 +1,15 @@
+from enum import Enum
+
+
+class BehaviourType(str, Enum):
+    SLEEPING = "sleeping"
+    SITTING = "sitting"
+    STANDING = "standing"
+    WALKING = "walking"
+    EATING = "eating"
+    READING = "reading"
+    PACING = "pacing"
+    FALL = "fall"
+    AGGRESSIVE_MOVEMENT = "aggressive_movement"
+    CHOKING_SIMULATION = "choking_simulation"
+    PROLONGED_INACTIVITY = "prolonged_inactivity"
