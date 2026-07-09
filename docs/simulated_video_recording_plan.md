@@ -20,6 +20,8 @@ Start recording only when these are true:
   unsafe restraint.
 - Head-banging and property-damage scenes must not involve real impact, real
   injury, or real damage.
+- Vomiting scenes must not involve real vomiting, unsafe ingestion, or
+  biohazard exposure.
 
 ## Filename Pattern
 
@@ -58,6 +60,7 @@ dataset/raw/pacing/pacing_001.mp4
 dataset/raw/fall/fall_001.mp4
 dataset/raw/aggressive_movement/aggressive_movement_001.mp4
 dataset/raw/choking_simulation/choking_simulation_001.mp4
+dataset/raw/vomiting/vomiting_001.mp4
 dataset/raw/prolonged_inactivity/prolonged_inactivity_001.mp4
 ```
 
@@ -84,6 +87,7 @@ Record a small balanced pilot batch before recording a larger dataset.
 | head_banging | 0 |
 | property_damage | 0 |
 | choking_simulation | 3 |
+| vomiting | 0 |
 | ligature_risk | 0 |
 | cutting_risk | 0 |
 | bleeding_visible | 0 |
@@ -96,8 +100,9 @@ requirements are reviewed. Cutting, bleeding, blood, and sharp-object clips
 should also wait until the safe simulation requirements are reviewed. Fighting
 and attack-on-person clips should also wait until a safe no-contact simulation
 plan is reviewed. Head-banging and property-damage clips should also wait until
-a safe no-impact simulation plan is reviewed. Keep clips short, usually 5-20
-seconds.
+a safe no-impact simulation plan is reviewed. Vomiting clips should also wait
+until a safe no-real-vomit simulation plan is reviewed. Keep clips short,
+usually 5-20 seconds.
 
 ## Scene Guidance
 
@@ -120,6 +125,8 @@ seconds.
 - Do not break or damage property. Use harmless props or mimed action only after
   review.
 - Do not create choking simulations involving real airway obstruction.
+- Do not create real vomiting. Use safe acting, props, or approved footage only
+  after review.
 - Do not use real blades, knives, razors, broken glass, or any object that could
   injure someone. Use safe props only.
 - Do not create real cuts or bleeding. Use fake blood or non-injury visual props

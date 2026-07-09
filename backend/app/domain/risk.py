@@ -8,6 +8,7 @@ HIGH_RISK_BEHAVIOURS = {
     BehaviourType.HEAD_BANGING,
     BehaviourType.PROPERTY_DAMAGE,
     BehaviourType.CHOKING_SIMULATION,
+    BehaviourType.VOMITING,
     BehaviourType.LIGATURE_RISK,
     BehaviourType.CUTTING_RISK,
     BehaviourType.BLEEDING_VISIBLE,

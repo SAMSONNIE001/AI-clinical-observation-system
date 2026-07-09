@@ -16,6 +16,7 @@ class BehaviourType(str, Enum):
     HEAD_BANGING = "head_banging"
     PROPERTY_DAMAGE = "property_damage"
     CHOKING_SIMULATION = "choking_simulation"
+    VOMITING = "vomiting"
     LIGATURE_RISK = "ligature_risk"
     CUTTING_RISK = "cutting_risk"
     BLEEDING_VISIBLE = "bleeding_visible"

@@ -31,6 +31,7 @@ be labelled `fall`.
 | Risk | Head banging |
 | Risk | Property damage |
 | Risk | Choking simulation |
+| Risk | Vomiting |
 | Risk | Ligature risk |
 | Risk | Cutting risk |
 | Risk | Bleeding visible |
@@ -59,6 +60,11 @@ escalation. They should not involve real impact, real injury, or real damage.
 Any examples should use controlled acting, soft props, staged movement, or
 approved/licensed footage.
 
+Vomiting is included as a high-risk safety label because it can indicate acute
+illness, choking risk, or aspiration risk. It must not involve real vomiting or
+unsafe ingestion. Any examples should use safe acting, props, or
+approved/licensed footage.
+
 ## Alarm Rules
 
 The system should sound an alarm for high-risk behaviours:
@@ -69,6 +75,7 @@ The system should sound an alarm for high-risk behaviours:
 - `head_banging`
 - `property_damage`
 - `choking_simulation`
+- `vomiting`
 - `ligature_risk`
 - `cutting_risk`
 - `bleeding_visible`
