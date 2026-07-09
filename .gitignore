@@ -4,8 +4,3 @@ __pycache__/
 .venv-*/
 storage/
 backend/storage/
-dataset/raw/**/*.mp4
-dataset/raw/**/*.mov
-dataset/raw/**/*.avi
-dataset/raw/**/*.mkv
-!dataset/raw/**/.gitkeep
