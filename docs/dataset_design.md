@@ -142,6 +142,10 @@ video. Each line includes:
 - `environment`
 - `camera_angle`
 
+For local training from the raw dataset, `dataset/training_manifest.jsonl` also
+includes `relative_path`, which points to the checked-out Git LFS video file
+under `dataset/raw`.
+
 ## Recording Preparation
 
 Before recording Version 1 videos, use
@@ -149,6 +153,12 @@ Before recording Version 1 videos, use
 plan filenames, labels, and metadata rows. The first batch should be a small
 balanced pilot batch so the upload, registration, and manifest export flow can
 be tested before collecting more clips.
+
+After recording, run `python scripts/generate_dataset_metadata.py` to scan
+`dataset/raw`, calculate durations, and generate:
+
+- `dataset/metadata.csv`
+- `dataset/training_manifest.jsonl`
 
 This file is the first training handoff format. Later training scripts should
 read the manifest instead of guessing labels from filenames.

@@ -13,6 +13,7 @@ class TrainingManifestItem:
     duration_seconds: float
     environment: str
     camera_angle: str | None = None
+    relative_path: str | None = None
 
 
 def load_training_manifest(path: Path) -> list[TrainingManifestItem]:

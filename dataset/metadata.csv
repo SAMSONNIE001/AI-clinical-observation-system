@@ -1,0 +1,122 @@
+video_id,filename,relative_path,behaviour_type,category,scenario_name,duration_seconds,environment,camera_angle,recorded_by,recorded_at,notes
+aggressive_movement_001,aggressive_movement_001.mp4,dataset/raw/aggressive_movement/aggressive_movement_001.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,22.19,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_002,aggressive_movement_002.mp4,dataset/raw/aggressive_movement/aggressive_movement_002.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,14.25,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_003,aggressive_movement_003.mp4,dataset/raw/aggressive_movement/aggressive_movement_003.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,11.64,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_004,aggressive_movement_004.mp4,dataset/raw/aggressive_movement/aggressive_movement_004.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,26.40,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_005,aggressive_movement_005.mp4,dataset/raw/aggressive_movement/aggressive_movement_005.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,9.18,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_006,aggressive_movement_006.mp4,dataset/raw/aggressive_movement/aggressive_movement_006.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,7.54,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_007,aggressive_movement_007.mp4,dataset/raw/aggressive_movement/aggressive_movement_007.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,11.40,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_008,aggressive_movement_008.mp4,dataset/raw/aggressive_movement/aggressive_movement_008.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,6.34,simulated_room,mixed_angles,,,self-simulated dataset clip
+aggressive_movement_009,aggressive_movement_009.mp4,dataset/raw/aggressive_movement/aggressive_movement_009.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,7.85,simulated_room,mixed_angles,,,self-simulated dataset clip
+choking_simulation_001,choking_simulation_001.mp4,dataset/raw/choking_simulation/choking_simulation_001.mp4,choking_simulation,risk,safe_choking_gesture_simulation,11.95,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_002,choking_simulation_002.mp4,dataset/raw/choking_simulation/choking_simulation_002.mp4,choking_simulation,risk,safe_choking_gesture_simulation,11.26,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_003,choking_simulation_003.mp4,dataset/raw/choking_simulation/choking_simulation_003.mp4,choking_simulation,risk,safe_choking_gesture_simulation,14.46,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_004,choking_simulation_004.mp4,dataset/raw/choking_simulation/choking_simulation_004.mp4,choking_simulation,risk,safe_choking_gesture_simulation,23.06,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_005,choking_simulation_005.mp4,dataset/raw/choking_simulation/choking_simulation_005.mp4,choking_simulation,risk,safe_choking_gesture_simulation,14.21,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_006,choking_simulation_006.mp4,dataset/raw/choking_simulation/choking_simulation_006.mp4,choking_simulation,risk,safe_choking_gesture_simulation,15.75,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+choking_simulation_007,choking_simulation_007.mp4,dataset/raw/choking_simulation/choking_simulation_007.mp4,choking_simulation,risk,safe_choking_gesture_simulation,13.93,simulated_room,mixed_angles,,,safe simulation only; no real airway obstruction
+eating_001,eating_001.mp4,dataset/raw/eating/eating_001.mp4,eating,normal,seated_eating_simulation,11.82,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_002,eating_002.mp4,dataset/raw/eating/eating_002.mp4,eating,normal,seated_eating_simulation,11.57,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_003,eating_003.mp4,dataset/raw/eating/eating_003.mp4,eating,normal,seated_eating_simulation,8.63,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_004,eating_004.mp4,dataset/raw/eating/eating_004.mp4,eating,normal,seated_eating_simulation,13.78,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_005,eating_005.mp4,dataset/raw/eating/eating_005.mp4,eating,normal,seated_eating_simulation,8.99,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_006,eating_006.mp4,dataset/raw/eating/eating_006.mp4,eating,normal,seated_eating_simulation,40.43,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_007,eating_007.mp4,dataset/raw/eating/eating_007.mp4,eating,normal,seated_eating_simulation,6.50,simulated_room,mixed_angles,,,self-simulated dataset clip
+eating_008,eating_008.mp4,dataset/raw/eating/eating_008.mp4,eating,normal,seated_eating_simulation,14.33,simulated_room,mixed_angles,,,self-simulated dataset clip
+fall_001,fall_001.mp4,dataset/raw/fall/fall_001.mp4,fall,risk,staged_low_risk_fall,11.67,simulated_room,mixed_angles,,,staged safely only
+fall_002,fall_002.mp4,dataset/raw/fall/fall_002.mp4,fall,risk,staged_low_risk_fall,11.67,simulated_room,mixed_angles,,,staged safely only
+fall_003,fall_003.mp4,dataset/raw/fall/fall_003.mp4,fall,risk,staged_low_risk_fall,10.47,simulated_room,mixed_angles,,,staged safely only
+fall_004,fall_004.mp4,dataset/raw/fall/fall_004.mp4,fall,risk,staged_low_risk_fall,6.20,simulated_room,mixed_angles,,,staged safely only
+fall_005,fall_005.mp4,dataset/raw/fall/fall_005.mp4,fall,risk,staged_low_risk_fall,3.23,simulated_room,mixed_angles,,,staged safely only
+fall_006,fall_006.mp4,dataset/raw/fall/fall_006.mp4,fall,risk,staged_low_risk_fall,13.47,simulated_room,mixed_angles,,,staged safely only
+fall_007,fall_007.mp4,dataset/raw/fall/fall_007.mp4,fall,risk,staged_low_risk_fall,10.90,simulated_room,mixed_angles,,,staged safely only
+fall_008,fall_008.mp4,dataset/raw/fall/fall_008.mp4,fall,risk,staged_low_risk_fall,3.20,simulated_room,mixed_angles,,,staged safely only
+fall_009,fall_009.mp4,dataset/raw/fall/fall_009.mp4,fall,risk,staged_low_risk_fall,10.82,simulated_room,mixed_angles,,,staged safely only
+fall_010,fall_010.mp4,dataset/raw/fall/fall_010.mp4,fall,risk,staged_low_risk_fall,12.42,simulated_room,mixed_angles,,,staged safely only
+fall_011,fall_011.mp4,dataset/raw/fall/fall_011.mp4,fall,risk,staged_low_risk_fall,8.01,simulated_room,mixed_angles,,,staged safely only
+pacing_001,pacing_001.mp4,dataset/raw/pacing/pacing_001.mp4,pacing,risk,repeated_walk_pattern,57.80,simulated_room,mixed_angles,,,self-simulated dataset clip
+pacing_002,pacing_002.mp4,dataset/raw/pacing/pacing_002.mp4,pacing,risk,repeated_walk_pattern,69.91,simulated_room,mixed_angles,,,self-simulated dataset clip
+pacing_003,pacing_003.mp4,dataset/raw/pacing/pacing_003.mp4,pacing,risk,repeated_walk_pattern,39.69,simulated_room,mixed_angles,,,self-simulated dataset clip
+pacing_004,pacing_004.mp4,dataset/raw/pacing/pacing_004.mp4,pacing,risk,repeated_walk_pattern,19.53,simulated_room,mixed_angles,,,self-simulated dataset clip
+pacing_005,pacing_005.mp4,dataset/raw/pacing/pacing_005.mp4,pacing,risk,repeated_walk_pattern,21.04,simulated_room,mixed_angles,,,self-simulated dataset clip
+pacing_006,pacing_006.mp4,dataset/raw/pacing/pacing_006.mp4,pacing,risk,repeated_walk_pattern,24.69,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_001,prolonged_inactivity_001.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_001.mp4,prolonged_inactivity,risk,stillness_in_place,28.35,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_002,prolonged_inactivity_002.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_002.mp4,prolonged_inactivity,risk,stillness_in_place,12.57,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_003,prolonged_inactivity_003.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_003.mp4,prolonged_inactivity,risk,stillness_in_place,20.07,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_004,prolonged_inactivity_004.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_004.mp4,prolonged_inactivity,risk,stillness_in_place,12.38,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_005,prolonged_inactivity_005.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_005.mp4,prolonged_inactivity,risk,stillness_in_place,17.90,simulated_room,mixed_angles,,,self-simulated dataset clip
+prolonged_inactivity_006,prolonged_inactivity_006.mp4,dataset/raw/prolonged_inactivity/prolonged_inactivity_006.mp4,prolonged_inactivity,risk,stillness_in_place,13.66,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_001,reading_001.mp4,dataset/raw/reading/reading_001.mp4,reading,normal,seated_reading,11.30,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_002,reading_002.mp4,dataset/raw/reading/reading_002.mp4,reading,normal,seated_reading,11.73,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_003,reading_003.mp4,dataset/raw/reading/reading_003.mp4,reading,normal,seated_reading,7.55,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_005,reading_005.mp4,dataset/raw/reading/reading_005.mp4,reading,normal,seated_reading,21.94,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_006,reading_006.mp4,dataset/raw/reading/reading_006.mp4,reading,normal,seated_reading,19.32,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_007,reading_007.mp4,dataset/raw/reading/reading_007.mp4,reading,normal,seated_reading,9.28,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_008,reading_008.mp4,dataset/raw/reading/reading_008.mp4,reading,normal,seated_reading,18.04,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_009,reading_009.mp4,dataset/raw/reading/reading_009.mp4,reading,normal,seated_reading,22.20,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_010,reading_010.mp4,dataset/raw/reading/reading_010.mp4,reading,normal,seated_reading,18.20,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_011,reading_011.mp4,dataset/raw/reading/reading_011.mp4,reading,normal,seated_reading,29.60,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_012,reading_012.mp4,dataset/raw/reading/reading_012.mp4,reading,normal,seated_reading,24.04,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_013,reading_013.mp4,dataset/raw/reading/reading_013.mp4,reading,normal,seated_reading,8.04,simulated_room,mixed_angles,,,self-simulated dataset clip
+reading_014,reading_014.mp4,dataset/raw/reading/reading_014.mp4,reading,normal,seated_reading,15.92,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_001,sitting_001.mp4,dataset/raw/sitting/sitting_001.mp4,sitting,normal,seated_idle,10.56,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_002,sitting_002.mp4,dataset/raw/sitting/sitting_002.mp4,sitting,normal,seated_idle,11.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_003,sitting_003.mp4,dataset/raw/sitting/sitting_003.mp4,sitting,normal,seated_idle,64.36,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_004,sitting_004.mp4,dataset/raw/sitting/sitting_004.mp4,sitting,normal,seated_idle,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_005,sitting_005.mp4,dataset/raw/sitting/sitting_005.mp4,sitting,normal,seated_idle,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_006,sitting_006.mp4,dataset/raw/sitting/sitting_006.mp4,sitting,normal,seated_idle,10.80,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_007,sitting_007.mp4,dataset/raw/sitting/sitting_007.mp4,sitting,normal,seated_idle,35.64,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_008,sitting_008.mp4,dataset/raw/sitting/sitting_008.mp4,sitting,normal,seated_idle,11.68,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_009,sitting_009.mp4,dataset/raw/sitting/sitting_009.mp4,sitting,normal,seated_idle,12.88,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_010,sitting_010.mp4,dataset/raw/sitting/sitting_010.mp4,sitting,normal,seated_idle,12.08,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_011,sitting_011.mp4,dataset/raw/sitting/sitting_011.mp4,sitting,normal,seated_idle,6.71,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_012,sitting_012.mp4,dataset/raw/sitting/sitting_012.mp4,sitting,normal,seated_idle,3.92,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_013,sitting_013.mp4,dataset/raw/sitting/sitting_013.mp4,sitting,normal,seated_idle,3.65,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_014,sitting_014.mp4,dataset/raw/sitting/sitting_014.mp4,sitting,normal,seated_idle,2.19,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_015,sitting_015.mp4,dataset/raw/sitting/sitting_015.mp4,sitting,normal,seated_idle,2.85,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_016,sitting_016.mp4,dataset/raw/sitting/sitting_016.mp4,sitting,normal,seated_idle,5.09,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_017,sitting_017.mp4,dataset/raw/sitting/sitting_017.mp4,sitting,normal,seated_idle,3.96,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_018,sitting_018.mp4,dataset/raw/sitting/sitting_018.mp4,sitting,normal,seated_idle,6.24,simulated_room,mixed_angles,,,self-simulated dataset clip
+sitting_019,sitting_019.mp4,dataset/raw/sitting/sitting_019.mp4,sitting,normal,seated_idle,6.37,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_001,sleeping_001.mp4,dataset/raw/sleeping/sleeping_001.mp4,sleeping,normal,lying_still_on_bed,17.32,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_002,sleeping_002.mp4,dataset/raw/sleeping/sleeping_002.mp4,sleeping,normal,lying_still_on_bed,15.84,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_003,sleeping_003.mp4,dataset/raw/sleeping/sleeping_003.mp4,sleeping,normal,lying_still_on_bed,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_004,sleeping_004.mp4,dataset/raw/sleeping/sleeping_004.mp4,sleeping,normal,lying_still_on_bed,9.73,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_005,sleeping_005.mp4,dataset/raw/sleeping/sleeping_005.mp4,sleeping,normal,lying_still_on_bed,12.56,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_006,sleeping_006.mp4,dataset/raw/sleeping/sleeping_006.mp4,sleeping,normal,lying_still_on_bed,18.88,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_007,sleeping_007.mp4,dataset/raw/sleeping/sleeping_007.mp4,sleeping,normal,lying_still_on_bed,29.70,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_008,sleeping_008.mp4,dataset/raw/sleeping/sleeping_008.mp4,sleeping,normal,lying_still_on_bed,30.30,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_009,sleeping_009.mp4,dataset/raw/sleeping/sleeping_009.mp4,sleeping,normal,lying_still_on_bed,21.47,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_010,sleeping_010.mp4,dataset/raw/sleeping/sleeping_010.mp4,sleeping,normal,lying_still_on_bed,11.36,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_011,sleeping_011.mp4,dataset/raw/sleeping/sleeping_011.mp4,sleeping,normal,lying_still_on_bed,21.44,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_012,sleeping_012.mp4,dataset/raw/sleeping/sleeping_012.mp4,sleeping,normal,lying_still_on_bed,12.84,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_013,sleeping_013.mp4,dataset/raw/sleeping/sleeping_013.mp4,sleeping,normal,lying_still_on_bed,20.00,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_014,sleeping_014.mp4,dataset/raw/sleeping/sleeping_014.mp4,sleeping,normal,lying_still_on_bed,8.83,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_015,sleeping_015.mp4,dataset/raw/sleeping/sleeping_015.mp4,sleeping,normal,lying_still_on_bed,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_016,sleeping_016.mp4,dataset/raw/sleeping/sleeping_016.mp4,sleeping,normal,lying_still_on_bed,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+sleeping_017,sleeping_017.mp4,dataset/raw/sleeping/sleeping_017.mp4,sleeping,normal,lying_still_on_bed,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_001,standing_001.mp4,dataset/raw/standing/standing_001.mp4,standing,normal,standing_idle,12.80,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_002,standing_002.mp4,dataset/raw/standing/standing_002.mp4,standing,normal,standing_idle,15.20,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_003,standing_003.mp4,dataset/raw/standing/standing_003.mp4,standing,normal,standing_idle,5.32,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_004,standing_004.mp4,dataset/raw/standing/standing_004.mp4,standing,normal,standing_idle,4.23,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_005,standing_005.mp4,dataset/raw/standing/standing_005.mp4,standing,normal,standing_idle,7.51,simulated_room,mixed_angles,,,self-simulated dataset clip
+standing_006,standing_006.mp4,dataset/raw/standing/standing_006.mp4,standing,normal,standing_idle,3.95,simulated_room,mixed_angles,,,self-simulated dataset clip
+vomiting_001,vomiting_001.mp4,dataset/raw/vomiting/vomiting_001.mp4,vomiting,risk,safe_vomiting_gesture_simulation,14.93,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_002,vomiting_002.mp4,dataset/raw/vomiting/vomiting_002.mp4,vomiting,risk,safe_vomiting_gesture_simulation,28.88,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_003,vomiting_003.mp4,dataset/raw/vomiting/vomiting_003.mp4,vomiting,risk,safe_vomiting_gesture_simulation,17.54,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_004,vomiting_004.mp4,dataset/raw/vomiting/vomiting_004.mp4,vomiting,risk,safe_vomiting_gesture_simulation,11.01,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_005,vomiting_005.mp4,dataset/raw/vomiting/vomiting_005.mp4,vomiting,risk,safe_vomiting_gesture_simulation,17.85,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_006,vomiting_006.mp4,dataset/raw/vomiting/vomiting_006.mp4,vomiting,risk,safe_vomiting_gesture_simulation,7.52,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_007,vomiting_007.mp4,dataset/raw/vomiting/vomiting_007.mp4,vomiting,risk,safe_vomiting_gesture_simulation,21.20,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_008,vomiting_008.mp4,dataset/raw/vomiting/vomiting_008.mp4,vomiting,risk,safe_vomiting_gesture_simulation,10.04,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_009,vomiting_009.mp4,dataset/raw/vomiting/vomiting_009.mp4,vomiting,risk,safe_vomiting_gesture_simulation,26.28,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_010,vomiting_010.mp4,dataset/raw/vomiting/vomiting_010.mp4,vomiting,risk,safe_vomiting_gesture_simulation,15.96,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+vomiting_011,vomiting_011.mp4,dataset/raw/vomiting/vomiting_011.mp4,vomiting,risk,safe_vomiting_gesture_simulation,8.56,simulated_room,mixed_angles,,,safe simulation only; no real vomiting
+walking_001,walking_001.mp4,dataset/raw/walking/walking_001.mp4,walking,normal,walking_across_room,11.16,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_002,walking_002.mp4,dataset/raw/walking/walking_002.mp4,walking,normal,walking_across_room,9.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_003,walking_003.mp4,dataset/raw/walking/walking_003.mp4,walking,normal,walking_across_room,16.64,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_004,walking_004.mp4,dataset/raw/walking/walking_004.mp4,walking,normal,walking_across_room,19.20,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_005,walking_005.mp4,dataset/raw/walking/walking_005.mp4,walking,normal,walking_across_room,10.01,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_006,walking_006.mp4,dataset/raw/walking/walking_006.mp4,walking,normal,walking_across_room,12.77,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_007,walking_007.mp4,dataset/raw/walking/walking_007.mp4,walking,normal,walking_across_room,28.26,simulated_room,mixed_angles,,,self-simulated dataset clip
+walking_008,walking_008.mp4,dataset/raw/walking/walking_008.mp4,walking,normal,walking_across_room,8.24,simulated_room,mixed_angles,,,self-simulated dataset clip
