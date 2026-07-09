@@ -160,6 +160,25 @@ After recording, run `python scripts/generate_dataset_metadata.py` to scan
 - `dataset/metadata.csv`
 - `dataset/training_manifest.jsonl`
 
+## Deferred High-Risk Simulations
+
+The first baseline training dataset includes only behaviours that have recorded
+clips in `dataset/raw`. The deferred high-risk labels should be added to model
+training only after safe simulations or approved footage exist:
+
+- `ligature_risk`
+- `cutting_risk`
+- `bleeding_visible`
+- `blood_visible`
+- `sharp_object_detected`
+- `fighting`
+- `attack_on_person`
+- `head_banging`
+- `property_damage`
+
+These are already part of the alarm contract, but they should remain rule-only
+or placeholder labels until clips are collected safely and reviewed.
+
 This file is the first training handoff format. Later training scripts should
 read the manifest instead of guessing labels from filenames.
 

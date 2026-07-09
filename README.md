@@ -104,6 +104,22 @@ Raw pilot videos are organised by behaviour under `dataset/raw`, for example
 The detection endpoint currently returns a stub response. It defines the API
 contract that the later trained model will plug into.
 
+The first baseline training pipeline reads `dataset/training_manifest.jsonl` and
+writes a simple OpenCV nearest-centroid classifier:
+
+```text
+python scripts/generate_dataset_metadata.py
+python -m ml.training.train_baseline_classifier
+```
+
+This baseline is useful for exercising the full data flow. It is not the final
+live-camera model.
+
+Deferred high-risk labels such as ligature risk, cutting risk, fighting, attack
+on person, head banging, property damage, blood/bleeding, and sharp-object
+detection should not be added to training until safe simulations or approved
+footage are available.
+
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk, cutting
 risk, visible blood, visible bleeding, fighting, attack on person, and
 sharp-object detection, head banging, and property damage set the detection
