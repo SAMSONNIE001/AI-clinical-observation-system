@@ -43,6 +43,27 @@ video_id = pacing_002
 filename = pacing_002.mp4
 ```
 
+## Folder Layout
+
+Save each video inside the folder for its behaviour:
+
+```text
+dataset/raw/sleeping/sleeping_001.mp4
+dataset/raw/sitting/sitting_001.mp4
+dataset/raw/standing/standing_001.mp4
+dataset/raw/walking/walking_001.mp4
+dataset/raw/eating/eating_001.mp4
+dataset/raw/reading/reading_001.mp4
+dataset/raw/pacing/pacing_001.mp4
+dataset/raw/fall/fall_001.mp4
+dataset/raw/aggressive_movement/aggressive_movement_001.mp4
+dataset/raw/choking_simulation/choking_simulation_001.mp4
+dataset/raw/prolonged_inactivity/prolonged_inactivity_001.mp4
+```
+
+Keep the filename exactly the same as the `filename` value in the metadata
+template. The folder is only for organising the raw files.
+
 ## First Batch
 
 Record a small balanced pilot batch before recording a larger dataset.
@@ -110,8 +131,9 @@ seconds.
 ## After Recording Each Clip
 
 1. Rename the file using the filename pattern.
-2. Add or update the row in `dataset/metadata_template.csv`.
-3. Upload the video through the API when the backend is running.
-4. Register the dataset video record with the same `video_id`, filename, label,
+2. Save it in the matching folder under `dataset/raw`.
+3. Add or update the row in `dataset/metadata_template.csv`.
+4. Upload the video through the API when the backend is running.
+5. Register the dataset video record with the same `video_id`, filename, label,
    category, scenario name, duration, environment, and camera angle.
-5. Export the training manifest after the batch is registered.
+6. Export the training manifest after the batch is registered.
