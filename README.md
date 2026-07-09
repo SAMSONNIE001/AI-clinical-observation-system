@@ -19,9 +19,9 @@ The goal is not to replace healthcare workers, but to support safer and more eff
 
 ## Dataset
 
-The first version will use short self-simulated video clips recorded in controlled scenes. Each clip should contain one main incident or behaviour and one video-level label. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, choking simulation, and prolonged inactivity.
+The first version will use short self-simulated video clips recorded in controlled scenes. Each clip should contain one main incident or behaviour and one video-level label. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, fighting or attack placeholders, head-banging placeholders, property-damage placeholders, choking simulation, ligature risk placeholders, cutting-risk placeholders, visible blood or bleeding simulations, sharp-object detection, and prolonged inactivity.
 
-Highly sensitive behaviours such as ligature attempts and self-harm are outside the Version 1 dataset scope. They should only be revisited after ethics, safeguarding, simulation design, and clinical review requirements are clear.
+Ligature risk, fighting, attack on person, head banging, property damage, cutting risk, visible blood, visible bleeding, and sharp-object detection are included as high-risk system labels so alarm routing can be designed. They must not be recorded as real harm, real impact, real damage, or real violence. Self-harm instructional content remains outside the Version 1 dataset scope.
 
 ## Tech Stack
 
@@ -94,8 +94,17 @@ for the first training dataset.
 The training manifest export creates a JSONL file from the video-level labels so
 future model training can consume the dataset consistently.
 
+Before recording simulated clips, use `docs/simulated_video_recording_plan.md`
+and `dataset/metadata_template.csv` to keep filenames, labels, and metadata
+consistent across the first pilot batch.
+
 The detection endpoint currently returns a stub response. It defines the API
 contract that the later trained model will plug into.
+
+High-risk behaviours such as falls, choking simulation, ligature risk, cutting
+risk, visible blood, visible bleeding, fighting, attack on person, and
+sharp-object detection, head banging, and property damage set the detection
+alarm contract so staff-facing workflows can trigger urgent review.
 
 The observation note endpoint generates draft staff-review notes from a labelled
 behaviour event. Notes are not final clinical records until reviewed by staff.

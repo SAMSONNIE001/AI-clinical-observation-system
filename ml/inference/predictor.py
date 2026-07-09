@@ -6,6 +6,9 @@ from pathlib import Path
 class PredictionResult:
     predicted_behaviour: str | None
     confidence: float
+    dangerous_objects_detected: list[str]
+    alarm_required: bool
+    alarm_reason: str | None
     model_version: str
     status: str
     message: str
@@ -18,6 +21,9 @@ class StubBehaviourPredictor:
         return PredictionResult(
             predicted_behaviour=None,
             confidence=0.0,
+            dangerous_objects_detected=[],
+            alarm_required=False,
+            alarm_reason=None,
             model_version=self.model_version,
             status="model_not_connected",
             message="Real behaviour detection model is not connected yet.",

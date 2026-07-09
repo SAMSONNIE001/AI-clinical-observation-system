@@ -26,12 +26,69 @@ be labelled `fall`.
 | Risk | Pacing |
 | Risk | Fall |
 | Risk | Aggressive movement |
+| Risk | Fighting |
+| Risk | Attack on person |
+| Risk | Head banging |
+| Risk | Property damage |
 | Risk | Choking simulation |
+| Risk | Ligature risk |
+| Risk | Cutting risk |
+| Risk | Bleeding visible |
+| Risk | Blood visible |
+| Risk | Sharp object detected |
 | Risk | Prolonged inactivity |
 
-Highly sensitive behaviours such as ligature attempts and self-harm are outside
-the Version 1 dataset scope. They should only be revisited after ethics,
-safeguarding, simulation design, and clinical review requirements are clear.
+Ligature risk is included as a high-risk system label so the product contract
+can route it to urgent alarms. It must not be recorded as a real attempt. Any
+Version 1 example should be a safe, reviewed simulation or placeholder asset
+only after ethics, safeguarding, simulation design, and clinical review
+requirements are clear.
+
+Cutting risk, visible bleeding, visible blood, and sharp-object detection are
+included as high-risk safety labels. They must not involve real injury. Any
+dataset examples should use safe props, fake blood, controlled acting, or
+licensed/approved footage, and should be reviewed before use. Self-harm
+instructional content remains outside the Version 1 dataset scope.
+
+Fighting and attack-on-person labels are included for urgent safety escalation.
+They should not involve real violence. Any examples should use controlled acting
+with no contact, staged movement, or approved/licensed footage.
+
+Head banging and property damage labels are included for urgent safety
+escalation. They should not involve real impact, real injury, or real damage.
+Any examples should use controlled acting, soft props, staged movement, or
+approved/licensed footage.
+
+## Alarm Rules
+
+The system should sound an alarm for high-risk behaviours:
+
+- `fall`
+- `fighting`
+- `attack_on_person`
+- `head_banging`
+- `property_damage`
+- `choking_simulation`
+- `ligature_risk`
+- `cutting_risk`
+- `bleeding_visible`
+- `blood_visible`
+- `sharp_object_detected`
+
+The system should also sound an alarm if dangerous objects are detected,
+including:
+
+- `blade`
+- `box_cutter`
+- `broken_glass`
+- `knife`
+- `razor`
+- `scissors`
+- `sharp_object`
+
+Medium-risk behaviours such as `pacing`, `aggressive_movement`, and
+`prolonged_inactivity` should be visible for staff review but should not sound
+the urgent alarm unless configured later by policy.
 
 ## Metadata Fields
 
@@ -77,6 +134,14 @@ video. Each line includes:
 - `duration_seconds`
 - `environment`
 - `camera_angle`
+
+## Recording Preparation
+
+Before recording Version 1 videos, use
+`docs/simulated_video_recording_plan.md` and `dataset/metadata_template.csv` to
+plan filenames, labels, and metadata rows. The first batch should be a small
+balanced pilot batch so the upload, registration, and manifest export flow can
+be tested before collecting more clips.
 
 This file is the first training handoff format. Later training scripts should
 read the manifest instead of guessing labels from filenames.

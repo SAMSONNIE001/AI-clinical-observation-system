@@ -2,20 +2,9 @@ from datetime import datetime, timezone
 from uuid import uuid4
 
 from app.domain.enums import BehaviourType, RiskLevel
+from app.domain.risk import risk_level_for_behaviour
 from app.models.observation_note import ObservationNote
 from app.schemas.observation_note import ObservationNoteGenerateRequest
-
-
-HIGH_RISK_BEHAVIOURS = {
-    BehaviourType.FALL,
-    BehaviourType.CHOKING_SIMULATION,
-}
-
-MEDIUM_RISK_BEHAVIOURS = {
-    BehaviourType.PACING,
-    BehaviourType.AGGRESSIVE_MOVEMENT,
-    BehaviourType.PROLONGED_INACTIVITY,
-}
 
 
 def generate_observation_note(payload: ObservationNoteGenerateRequest) -> ObservationNote:
@@ -36,11 +25,9 @@ def generate_observation_note(payload: ObservationNoteGenerateRequest) -> Observ
 
 
 def _risk_level_for(behaviour: BehaviourType, alert_generated: bool) -> RiskLevel:
-    if alert_generated or behaviour in HIGH_RISK_BEHAVIOURS:
+    if alert_generated:
         return RiskLevel.HIGH
-    if behaviour in MEDIUM_RISK_BEHAVIOURS:
-        return RiskLevel.MEDIUM
-    return RiskLevel.LOW
+    return risk_level_for_behaviour(behaviour)
 
 
 def _build_note_text(

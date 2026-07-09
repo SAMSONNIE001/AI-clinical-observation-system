@@ -1,0 +1,12 @@
+video_id,filename,behaviour_type,category,scenario_name,duration_seconds,environment,camera_angle,recorded_by,recorded_at,notes
+sleeping_001,sleeping_001.mp4,sleeping,normal,lying_still_on_bed,10,simulated_room,fixed_side_view,,,
+sitting_001,sitting_001.mp4,sitting,normal,seated_idle,10,simulated_room,fixed_front_view,,,
+standing_001,standing_001.mp4,standing,normal,standing_idle,10,simulated_room,fixed_front_view,,,
+walking_001,walking_001.mp4,walking,normal,walking_across_room,10,simulated_room,fixed_wide_view,,,
+eating_001,eating_001.mp4,eating,normal,seated_eating_simulation,10,simulated_room,fixed_front_view,,,
+reading_001,reading_001.mp4,reading,normal,seated_reading,10,simulated_room,fixed_front_view,,,
+pacing_001,pacing_001.mp4,pacing,risk,repeated_walk_pattern,15,simulated_room,fixed_wide_view,,,
+fall_001,fall_001.mp4,fall,risk,staged_low_risk_fall,8,simulated_room,fixed_wide_view,,staged safely only
+aggressive_movement_001,aggressive_movement_001.mp4,aggressive_movement,risk,agitated_arm_movement_simulation,10,simulated_room,fixed_wide_view,,,
+choking_simulation_001,choking_simulation_001.mp4,choking_simulation,risk,safe_choking_gesture_simulation,8,simulated_room,fixed_front_view,,no real airway obstruction
+prolonged_inactivity_001,prolonged_inactivity_001.mp4,prolonged_inactivity,risk,stillness_in_chair,20,simulated_room,fixed_front_view,,,

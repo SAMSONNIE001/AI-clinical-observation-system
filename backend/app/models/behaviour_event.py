@@ -3,6 +3,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field
 
 from app.domain.enums import BehaviourType
+from app.domain.risk import alarm_required_for_behaviour
 
 
 class BehaviourEvent(BaseModel):
@@ -15,3 +16,7 @@ class BehaviourEvent(BaseModel):
     timestamp: datetime
     reviewed: bool = False
     alert_generated: bool = False
+
+    def model_post_init(self, __context: object) -> None:
+        if alarm_required_for_behaviour(self.behaviour):
+            self.alert_generated = True
