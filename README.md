@@ -129,6 +129,18 @@ alarm only when high-risk predictions meet the confidence and repeated
 confirmation thresholds. This is for testing the full workflow, not for clinical
 use.
 
+The first pretrained component is a YOLO object detector for people and
+dangerous object cues. It currently maps COCO `knife` and `scissors` detections
+into `dangerous_objects_detected`, which can trigger the alarm contract:
+
+```text
+python scripts/test_pretrained_object_detector.py dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
+```
+
+YOLO weights may download the first time this command is run. The simulated
+videos remain useful for fine-tuning and validation; they are not intended to
+train the whole vision model from scratch.
+
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk,
 visible bleeding, attack on person, and
 sharp-object detection, head banging, and property damage set the detection
