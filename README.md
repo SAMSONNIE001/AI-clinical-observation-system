@@ -101,8 +101,10 @@ consistent across the first pilot batch.
 Raw pilot videos are organised by behaviour under `dataset/raw`, for example
 `dataset/raw/pacing/pacing_001.mp4`.
 
-The detection endpoint currently returns a stub response. It defines the API
-contract that the later trained model will plug into.
+The detection endpoint defines the API contract that the later trained model
+will plug into. When `video_path` is provided and
+`ml/models/baseline_video_classifier.json` exists, the endpoint uses the
+baseline classifier and returns `alarm_required` for high-risk predictions.
 
 The first baseline training pipeline reads `dataset/training_manifest.jsonl` and
 writes a simple OpenCV nearest-centroid classifier:
