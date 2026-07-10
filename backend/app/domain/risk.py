@@ -3,7 +3,6 @@ from app.domain.enums import BehaviourType, RiskLevel
 
 HIGH_RISK_BEHAVIOURS = {
     BehaviourType.FALL,
-    BehaviourType.FIGHTING,
     BehaviourType.ATTACK_ON_PERSON,
     BehaviourType.HEAD_BANGING,
     BehaviourType.PROPERTY_DAMAGE,
@@ -12,7 +11,6 @@ HIGH_RISK_BEHAVIOURS = {
     BehaviourType.LIGATURE_RISK,
     BehaviourType.CUTTING_RISK,
     BehaviourType.BLEEDING_VISIBLE,
-    BehaviourType.BLOOD_VISIBLE,
     BehaviourType.SHARP_OBJECT_DETECTED,
 }
 

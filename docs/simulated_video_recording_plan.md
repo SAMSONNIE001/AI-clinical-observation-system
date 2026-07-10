@@ -70,9 +70,7 @@ When the high-risk simulation plan is reviewed, use the same structure:
 dataset/raw/ligature_risk/ligature_risk_001.mp4
 dataset/raw/cutting_risk/cutting_risk_001.mp4
 dataset/raw/bleeding_visible/bleeding_visible_001.mp4
-dataset/raw/blood_visible/blood_visible_001.mp4
 dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
-dataset/raw/fighting/fighting_001.mp4
 dataset/raw/attack_on_person/attack_on_person_001.mp4
 dataset/raw/head_banging/head_banging_001.mp4
 dataset/raw/property_damage/property_damage_001.mp4
@@ -110,9 +108,7 @@ clips per label if possible.
 | ligature_risk | 0 |
 | cutting_risk | 0 |
 | bleeding_visible | 0 |
-| blood_visible | 0 |
 | sharp_object_detected | 0 |
-| fighting | 0 |
 | attack_on_person | 0 |
 | head_banging | 0 |
 | property_damage | 0 |

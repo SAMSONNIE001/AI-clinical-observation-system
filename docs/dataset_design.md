@@ -26,7 +26,6 @@ be labelled `fall`.
 | Risk | Pacing |
 | Risk | Fall |
 | Risk | Aggressive movement |
-| Risk | Fighting |
 | Risk | Attack on person |
 | Risk | Head banging |
 | Risk | Property damage |
@@ -35,7 +34,6 @@ be labelled `fall`.
 | Risk | Ligature risk |
 | Risk | Cutting risk |
 | Risk | Bleeding visible |
-| Risk | Blood visible |
 | Risk | Sharp object detected |
 | Risk | Prolonged inactivity |
 
@@ -51,9 +49,11 @@ dataset examples should use safe props, fake blood, controlled acting, or
 licensed/approved footage, and should be reviewed before use. Self-harm
 instructional content remains outside the Version 1 dataset scope.
 
-Fighting and attack-on-person labels are included for urgent safety escalation.
-They should not involve real violence. Any examples should use controlled acting
-with no contact, staged movement, or approved/licensed footage.
+Attack-on-person is the single label for fighting, patient-on-patient
+aggression, and attack-on-staff simulations. It is included for urgent safety
+escalation. It should not involve real violence. Any examples should use
+controlled acting with no contact, staged movement, or approved/licensed
+footage.
 
 Head banging and property damage labels are included for urgent safety
 escalation. They should not involve real impact, real injury, or real damage.
@@ -70,7 +70,6 @@ approved/licensed footage.
 The system should sound an alarm for high-risk behaviours:
 
 - `fall`
-- `fighting`
 - `attack_on_person`
 - `head_banging`
 - `property_damage`
@@ -79,7 +78,6 @@ The system should sound an alarm for high-risk behaviours:
 - `ligature_risk`
 - `cutting_risk`
 - `bleeding_visible`
-- `blood_visible`
 - `sharp_object_detected`
 
 The system should also sound an alarm if dangerous objects are detected,
@@ -169,9 +167,7 @@ training only after safe simulations or approved footage exist:
 - `ligature_risk`
 - `cutting_risk`
 - `bleeding_visible`
-- `blood_visible`
 - `sharp_object_detected`
-- `fighting`
 - `attack_on_person`
 - `head_banging`
 - `property_damage`
