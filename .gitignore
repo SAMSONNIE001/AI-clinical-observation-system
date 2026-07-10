@@ -5,3 +5,6 @@ __pycache__/
 storage/
 backend/storage/
 dataset/rejected/
+ml/models/*.pt
+ml/models/*.pth
+ml/models/*.onnx

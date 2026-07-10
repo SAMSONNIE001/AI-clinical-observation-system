@@ -9,6 +9,7 @@ import cv2
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "baseline_video_classifier.json"
+ACTION_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "video_action_classifier.pt"
 
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -75,6 +76,7 @@ def main() -> int:
 
     predictor = PretrainedClinicalObservationPipeline(
         baseline_model_path=MODEL_PATH,
+        action_model_path=ACTION_MODEL_PATH,
         enable_objects=not args.disable_objects,
         enable_pose=not args.disable_pose,
     )

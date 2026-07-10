@@ -15,12 +15,16 @@ class PretrainedClinicalObservationPipeline:
     def __init__(
         self,
         baseline_model_path: Path,
+        action_model_path: Path | None = None,
         enable_objects: bool = True,
         enable_pose: bool = True,
     ) -> None:
         self.baseline = BaselineVideoClassifierPredictor(model_path=baseline_model_path)
+        self.action_model_path = action_model_path
         self.enable_objects = enable_objects
         self.enable_pose = enable_pose
+        self._action_classifier = None
+        self._action_classifier_error: str | None = None
         self._object_detector = None
         self._pose_analyzer = None
         self._object_detector_error: str | None = None
@@ -31,12 +35,21 @@ class PretrainedClinicalObservationPipeline:
         if video_path is None:
             return baseline_result
 
+        action_label, action_confidence, action_status, action_version = (
+            self._predict_action(video_path)
+        )
         dangerous_objects, object_status = self._detect_dangerous_objects(video_path)
         pose_status = self._analyze_pose(video_path)
+        predicted_label = action_label or baseline_result.predicted_behaviour
+        confidence = (
+            action_confidence
+            if action_label is not None
+            else baseline_result.confidence
+        )
 
         behaviour = (
-            BehaviourType(baseline_result.predicted_behaviour)
-            if baseline_result.predicted_behaviour is not None
+            BehaviourType(predicted_label)
+            if predicted_label is not None
             else None
         )
         object_alarm_required = alarm_required_for_objects(dangerous_objects)
@@ -48,19 +61,53 @@ class PretrainedClinicalObservationPipeline:
         )
 
         return PredictionResult(
-            predicted_behaviour=baseline_result.predicted_behaviour,
-            confidence=baseline_result.confidence,
+            predicted_behaviour=predicted_label,
+            confidence=confidence,
             dangerous_objects_detected=dangerous_objects,
             alarm_required=alarm_required,
             alarm_reason=alarm_reason,
-            model_version=self._model_version(object_status, pose_status),
+            model_version=self._model_version(
+                action_version=action_version,
+                object_status=object_status,
+                pose_status=pose_status,
+            ),
             status=baseline_result.status,
             message=(
                 f"{baseline_result.message} "
+                f"Action classifier status: {action_status}. "
                 f"Object detector status: {object_status}. "
                 f"Pose analyzer status: {pose_status}."
             ),
         )
+
+    def _predict_action(self, video_path: Path) -> tuple[str | None, float, str, str | None]:
+        if self.action_model_path is None:
+            return None, 0.0, "not_configured", None
+        if not self.action_model_path.exists():
+            return None, 0.0, "checkpoint_not_found", None
+        if self._action_classifier_error is not None:
+            return None, 0.0, self._action_classifier_error, None
+
+        try:
+            if self._action_classifier is None:
+                from ml.inference.video_action_classifier import (
+                    TorchVisionVideoActionClassifier,
+                )
+
+                self._action_classifier = TorchVisionVideoActionClassifier(
+                    checkpoint_path=self.action_model_path
+                )
+
+            prediction = self._action_classifier.predict(video_path)
+            return (
+                prediction.label,
+                prediction.confidence,
+                "ok",
+                prediction.model_version,
+            )
+        except Exception as exc:
+            self._action_classifier_error = f"unavailable ({exc})"
+            return None, 0.0, self._action_classifier_error, None
 
     def _detect_dangerous_objects(self, video_path: Path) -> tuple[list[str], str]:
         if not self.enable_objects:
@@ -105,8 +152,13 @@ class PretrainedClinicalObservationPipeline:
             self._pose_analyzer_error = f"unavailable ({exc})"
             return self._pose_analyzer_error
 
-    def _model_version(self, object_status: str, pose_status: str) -> str:
-        versions = [self.baseline.model_version]
+    def _model_version(
+        self,
+        action_version: str | None,
+        object_status: str,
+        pose_status: str,
+    ) -> str:
+        versions = [action_version or self.baseline.model_version]
         if object_status.startswith("ok"):
             versions.append("yolo-object-v1")
         if pose_status.startswith("ok"):

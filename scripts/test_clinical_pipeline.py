@@ -13,6 +13,7 @@ from ml.inference.clinical_pipeline import PretrainedClinicalObservationPipeline
 
 
 MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "baseline_video_classifier.json"
+ACTION_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "video_action_classifier.pt"
 
 
 def parse_args() -> argparse.Namespace:
@@ -45,6 +46,7 @@ def main() -> int:
 
     pipeline = PretrainedClinicalObservationPipeline(
         baseline_model_path=MODEL_PATH,
+        action_model_path=ACTION_MODEL_PATH,
         enable_objects=not args.disable_objects,
         enable_pose=not args.disable_pose,
     )

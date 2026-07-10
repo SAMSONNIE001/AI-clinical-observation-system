@@ -10,6 +10,7 @@ from app.schemas.detection import DetectionRequest, DetectionResponse
 STUB_MODEL_VERSION = "stub-v0"
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 BASELINE_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "baseline_video_classifier.json"
+ACTION_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "video_action_classifier.pt"
 
 
 def predict_behaviour(payload: DetectionRequest) -> DetectionResponse:
@@ -103,4 +104,7 @@ def _clinical_predictor():
 
     from ml.inference.clinical_pipeline import PretrainedClinicalObservationPipeline
 
-    return PretrainedClinicalObservationPipeline(baseline_model_path=BASELINE_MODEL_PATH)
+    return PretrainedClinicalObservationPipeline(
+        baseline_model_path=BASELINE_MODEL_PATH,
+        action_model_path=ACTION_MODEL_PATH,
+    )

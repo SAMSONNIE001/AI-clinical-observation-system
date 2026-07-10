@@ -151,6 +151,17 @@ The combined pipeline can be tested with:
 python scripts/test_clinical_pipeline.py dataset/raw/pacing/pacing_001.mp4
 ```
 
+The first pretrained video/action classifier fine-tuning path uses TorchVision
+`r3d_18` with a new project-specific classification head:
+
+```text
+python -m ml.training.train_video_action_classifier --epochs 3 --batch-size 1
+```
+
+When `ml/models/video_action_classifier.pt` exists, the combined pipeline uses
+it for behavior classification. Until then, it falls back to the baseline
+classifier.
+
 YOLO weights may download the first time this command is run. The simulated
 videos remain useful for fine-tuning and validation; they are not intended to
 train the whole vision model from scratch. For final classification, a
