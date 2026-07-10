@@ -36,12 +36,12 @@ def predict_behaviour(payload: DetectionRequest) -> DetectionResponse:
         )
 
     try:
-        prediction = _baseline_predictor().predict(video_path)
+        prediction = _clinical_predictor().predict(video_path)
     except Exception as exc:
         return _stub_response(
             payload=payload,
             status="prediction_failed",
-            message=f"Baseline prediction failed: {exc}",
+            message=f"Clinical prediction pipeline failed: {exc}",
         )
 
     predicted_behaviour = (
@@ -49,35 +49,16 @@ def predict_behaviour(payload: DetectionRequest) -> DetectionResponse:
         if prediction.predicted_behaviour is not None
         else None
     )
-    dangerous_objects_detected, object_detector_status = _detect_dangerous_objects(
-        video_path
-    )
-    object_alarm_required = alarm_required_for_objects(dangerous_objects_detected)
-    alarm_required = prediction.alarm_required or object_alarm_required
-    alarm_reason = prediction.alarm_reason
-    if object_alarm_required:
-        alarm_reason = "Dangerous object detected."
-    if prediction.alarm_required and object_alarm_required:
-        alarm_reason = "High-risk behaviour and dangerous object detected."
-
-    model_version = prediction.model_version
-    if object_detector_status == "ok":
-        model_version = f"{model_version}+yolo-object-v1"
-
-    message = prediction.message
-    if object_detector_status != "ok":
-        message = f"{message} Object detector status: {object_detector_status}."
-
     return DetectionResponse(
         video_id=payload.video_id,
         predicted_behaviour=predicted_behaviour,
         confidence=prediction.confidence,
-        dangerous_objects_detected=dangerous_objects_detected,
-        alarm_required=alarm_required,
-        alarm_reason=alarm_reason,
-        model_version=model_version,
+        dangerous_objects_detected=prediction.dangerous_objects_detected,
+        alarm_required=prediction.alarm_required,
+        alarm_reason=prediction.alarm_reason,
+        model_version=prediction.model_version,
         status=prediction.status,
-        message=message,
+        message=prediction.message,
     )
 
 
@@ -116,30 +97,10 @@ def _resolve_video_path(video_path: Path) -> Path:
 
 
 @lru_cache(maxsize=1)
-def _baseline_predictor():
+def _clinical_predictor():
     if str(PROJECT_ROOT) not in sys.path:
         sys.path.insert(0, str(PROJECT_ROOT))
 
-    from ml.inference.predictor import BaselineVideoClassifierPredictor
+    from ml.inference.clinical_pipeline import PretrainedClinicalObservationPipeline
 
-    return BaselineVideoClassifierPredictor(model_path=BASELINE_MODEL_PATH)
-
-
-def _detect_dangerous_objects(video_path: Path) -> tuple[list[str], str]:
-    try:
-        from ml.inference.object_detector import dangerous_objects_from_detections
-
-        detections = _pretrained_object_detector().detect_video(video_path)
-        return dangerous_objects_from_detections(detections), "ok"
-    except Exception as exc:
-        return [], f"unavailable ({exc})"
-
-
-@lru_cache(maxsize=1)
-def _pretrained_object_detector():
-    if str(PROJECT_ROOT) not in sys.path:
-        sys.path.insert(0, str(PROJECT_ROOT))
-
-    from ml.inference.object_detector import PretrainedObjectDetector
-
-    return PretrainedObjectDetector()
+    return PretrainedClinicalObservationPipeline(baseline_model_path=BASELINE_MODEL_PATH)

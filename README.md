@@ -129,17 +129,34 @@ alarm only when high-risk predictions meet the confidence and repeated
 confirmation thresholds. This is for testing the full workflow, not for clinical
 use.
 
-The first pretrained component is a YOLO object detector for people and
-dangerous object cues. It currently maps COCO `knife` and `scissors` detections
-into `dangerous_objects_detected`, which can trigger the alarm contract:
+The pretrained model path combines YOLO object detection, MediaPipe pose
+movement analysis, and a later pretrained video/action classifier. YOLO
+currently maps COCO `knife` and `scissors` detections into
+`dangerous_objects_detected`, which can trigger the alarm contract:
 
 ```text
 python scripts/test_pretrained_object_detector.py dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
 ```
 
+MediaPipe pose movement can be tested separately:
+
+```text
+pip install -r backend/requirements-vision.txt
+python scripts/test_mediapipe_pose.py dataset/raw/pacing/pacing_001.mp4
+```
+
+The combined pipeline can be tested with:
+
+```text
+python scripts/test_clinical_pipeline.py dataset/raw/pacing/pacing_001.mp4
+```
+
 YOLO weights may download the first time this command is run. The simulated
 videos remain useful for fine-tuning and validation; they are not intended to
-train the whole vision model from scratch.
+train the whole vision model from scratch. For final classification, a
+pretrained video/action model is preferred over a plain CNN because many labels
+depend on movement over time. See `docs/model_strategy.md` for the model
+selection plan.
 
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk,
 visible bleeding, attack on person, and

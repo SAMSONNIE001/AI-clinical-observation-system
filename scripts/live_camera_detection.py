@@ -16,12 +16,12 @@ BACKEND_PATH = PROJECT_ROOT / "backend"
 if str(BACKEND_PATH) not in sys.path:
     sys.path.insert(0, str(BACKEND_PATH))
 
-from ml.inference.predictor import BaselineVideoClassifierPredictor
+from ml.inference.clinical_pipeline import PretrainedClinicalObservationPipeline
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Run the baseline behaviour classifier on short live camera clips."
+        description="Run the clinical observation pipeline on short live camera clips."
     )
     parser.add_argument("--camera", type=int, default=0, help="Camera index to open.")
     parser.add_argument(
@@ -54,6 +54,16 @@ def parse_args() -> argparse.Namespace:
         default=2,
         help="Number of repeated high-risk predictions required before alarming.",
     )
+    parser.add_argument(
+        "--disable-objects",
+        action="store_true",
+        help="Disable YOLO object detection.",
+    )
+    parser.add_argument(
+        "--disable-pose",
+        action="store_true",
+        help="Disable MediaPipe pose movement analysis.",
+    )
     return parser.parse_args()
 
 
@@ -63,7 +73,11 @@ def main() -> int:
         print(f"Model file not found: {MODEL_PATH}")
         return 1
 
-    predictor = BaselineVideoClassifierPredictor(model_path=MODEL_PATH)
+    predictor = PretrainedClinicalObservationPipeline(
+        baseline_model_path=MODEL_PATH,
+        enable_objects=not args.disable_objects,
+        enable_pose=not args.disable_pose,
+    )
     capture = cv2.VideoCapture(args.camera)
     if not capture.isOpened():
         print(f"Could not open camera index {args.camera}.")
