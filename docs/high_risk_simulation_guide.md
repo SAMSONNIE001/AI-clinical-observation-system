@@ -20,7 +20,6 @@ model learn visual warning patterns without creating real harm.
 | Label | Folder | Safe scene idea |
 | --- | --- | --- |
 | `ligature_risk` | `dataset/raw/ligature_risk` | Non-harmful placeholder scene showing concerning setup cues only; no real neck contact or tightening |
-| `cutting_risk` | `dataset/raw/cutting_risk` | Safe prop held near forearm or table; no real blade and no cutting motion against skin |
 | `bleeding_visible` | `dataset/raw/bleeding_visible` | Fake blood visible on cloth, tissue, sleeve, or skin-safe makeup |
 | `sharp_object_detected` | `dataset/raw/sharp_object_detected` | Clearly visible safe prop representing scissors/blade/knife; no dangerous object |
 | `attack_on_person` | `dataset/raw/attack_on_person` | No-contact staged fighting, lunge, or threatening posture; no contact and no real threat |

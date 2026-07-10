@@ -17,7 +17,6 @@ class BehaviourType(str, Enum):
     CHOKING_SIMULATION = "choking_simulation"
     VOMITING = "vomiting"
     LIGATURE_RISK = "ligature_risk"
-    CUTTING_RISK = "cutting_risk"
     BLEEDING_VISIBLE = "bleeding_visible"
     SHARP_OBJECT_DETECTED = "sharp_object_detected"
     PROLONGED_INACTIVITY = "prolonged_inactivity"

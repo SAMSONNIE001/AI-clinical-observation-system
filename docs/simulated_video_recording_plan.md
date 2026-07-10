@@ -68,7 +68,6 @@ When the high-risk simulation plan is reviewed, use the same structure:
 
 ```text
 dataset/raw/ligature_risk/ligature_risk_001.mp4
-dataset/raw/cutting_risk/cutting_risk_001.mp4
 dataset/raw/bleeding_visible/bleeding_visible_001.mp4
 dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
 dataset/raw/attack_on_person/attack_on_person_001.mp4
@@ -106,7 +105,6 @@ clips per label if possible.
 | Behaviour | Suggested clips |
 | --- | ---: |
 | ligature_risk | 0 |
-| cutting_risk | 0 |
 | bleeding_visible | 0 |
 | sharp_object_detected | 0 |
 | attack_on_person | 0 |

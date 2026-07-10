@@ -32,7 +32,6 @@ be labelled `fall`.
 | Risk | Choking simulation |
 | Risk | Vomiting |
 | Risk | Ligature risk |
-| Risk | Cutting risk |
 | Risk | Bleeding visible |
 | Risk | Sharp object detected |
 | Risk | Prolonged inactivity |
@@ -43,11 +42,11 @@ Version 1 example should be a safe, reviewed simulation or placeholder asset
 only after ethics, safeguarding, simulation design, and clinical review
 requirements are clear.
 
-Cutting risk, visible bleeding, visible blood, and sharp-object detection are
-included as high-risk safety labels. They must not involve real injury. Any
-dataset examples should use safe props, fake blood, controlled acting, or
-licensed/approved footage, and should be reviewed before use. Self-harm
-instructional content remains outside the Version 1 dataset scope.
+Visible bleeding and sharp-object detection are included as high-risk safety
+labels. They must not involve real injury. Any dataset examples should use safe
+props, fake blood, controlled acting, or licensed/approved footage, and should
+be reviewed before use. Self-harm instructional content remains outside the
+Version 1 dataset scope.
 
 Attack-on-person is the single label for fighting, patient-on-patient
 aggression, and attack-on-staff simulations. It is included for urgent safety
@@ -76,7 +75,6 @@ The system should sound an alarm for high-risk behaviours:
 - `choking_simulation`
 - `vomiting`
 - `ligature_risk`
-- `cutting_risk`
 - `bleeding_visible`
 - `sharp_object_detected`
 
@@ -165,7 +163,6 @@ clips in `dataset/raw`. The deferred high-risk labels should be added to model
 training only after safe simulations or approved footage exist:
 
 - `ligature_risk`
-- `cutting_risk`
 - `bleeding_visible`
 - `sharp_object_detected`
 - `attack_on_person`

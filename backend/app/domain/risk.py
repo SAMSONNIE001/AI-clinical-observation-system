@@ -9,7 +9,6 @@ HIGH_RISK_BEHAVIOURS = {
     BehaviourType.CHOKING_SIMULATION,
     BehaviourType.VOMITING,
     BehaviourType.LIGATURE_RISK,
-    BehaviourType.CUTTING_RISK,
     BehaviourType.BLEEDING_VISIBLE,
     BehaviourType.SHARP_OBJECT_DETECTED,
 }
