@@ -19,7 +19,7 @@ The goal is not to replace healthcare workers, but to support safer and more eff
 
 ## Dataset
 
-The first version will use short self-simulated video clips recorded in controlled scenes. Each clip should contain one main incident or behaviour and one video-level label. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, attack-on-person placeholders, head-banging placeholders, property-damage placeholders, choking simulation, vomiting placeholders, ligature risk placeholders, cutting-risk placeholders, visible bleeding simulations, sharp-object detection, and prolonged inactivity.
+The first version will use short self-simulated video clips recorded in controlled scenes. Each clip should contain one main incident or behaviour and one video-level label. These videos will represent safe observation scenarios such as sleeping, sitting, standing, walking, eating, reading, pacing, falling, aggressive movement simulation, attack-on-person placeholders, head-banging placeholders, property-damage placeholders, choking simulation, vomiting placeholders, ligature risk placeholders, visible bleeding simulations, sharp-object detection, and prolonged inactivity.
 
 Ligature risk, attack on person, head banging, property damage, vomiting, visible bleeding, and sharp-object detection are included as high-risk system labels so alarm routing can be designed. They must not be recorded as real harm, real impact, real damage, real vomiting, or real violence. Self-harm instructional content remains outside the Version 1 dataset scope.
 
@@ -117,10 +117,16 @@ python -m ml.training.train_baseline_classifier
 This baseline is useful for exercising the full data flow. It is not the final
 live-camera model.
 
-Deferred high-risk labels such as ligature risk, attack on
-person, head banging, property damage, bleeding, and sharp-object
-detection should not be added to training until safe simulations or approved
-footage are available.
+The baseline can also be exercised against a live camera feed:
+
+```text
+python scripts/live_camera_detection.py
+```
+
+The live camera script records short rolling clips from the webcam, classifies
+each clip with the baseline model, displays the prediction, and sounds a simple
+alarm for high-risk predictions. This is for testing the full workflow, not for
+clinical use.
 
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk,
 visible bleeding, attack on person, and
