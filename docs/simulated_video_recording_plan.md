@@ -64,6 +64,20 @@ dataset/raw/vomiting/vomiting_001.mp4
 dataset/raw/prolonged_inactivity/prolonged_inactivity_001.mp4
 ```
 
+When the high-risk simulation plan is reviewed, use the same structure:
+
+```text
+dataset/raw/ligature_risk/ligature_risk_001.mp4
+dataset/raw/cutting_risk/cutting_risk_001.mp4
+dataset/raw/bleeding_visible/bleeding_visible_001.mp4
+dataset/raw/blood_visible/blood_visible_001.mp4
+dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
+dataset/raw/fighting/fighting_001.mp4
+dataset/raw/attack_on_person/attack_on_person_001.mp4
+dataset/raw/head_banging/head_banging_001.mp4
+dataset/raw/property_damage/property_damage_001.mp4
+```
+
 Keep the filename exactly the same as the `filename` value in the metadata
 template. The folder is only for organising the raw files.
 
@@ -82,27 +96,29 @@ Record a small balanced pilot batch before recording a larger dataset.
 | pacing | 3 |
 | fall | 3 |
 | aggressive_movement | 3 |
-| fighting | 0 |
-| attack_on_person | 0 |
-| head_banging | 0 |
-| property_damage | 0 |
 | choking_simulation | 3 |
-| vomiting | 0 |
+| vomiting | 3 |
+| prolonged_inactivity | 3 |
+
+## High-Risk Fine-Tuning Batch
+
+Record these only after the safety boundaries are clear. Start with 10 short
+clips per label if possible.
+
+| Behaviour | Suggested clips |
+| --- | ---: |
 | ligature_risk | 0 |
 | cutting_risk | 0 |
 | bleeding_visible | 0 |
 | blood_visible | 0 |
 | sharp_object_detected | 0 |
-| prolonged_inactivity | 3 |
+| fighting | 0 |
+| attack_on_person | 0 |
+| head_banging | 0 |
+| property_damage | 0 |
 
-This gives 33 pilot clips, plus no ligature-risk clips until the safe simulation
-requirements are reviewed. Cutting, bleeding, blood, and sharp-object clips
-should also wait until the safe simulation requirements are reviewed. Fighting
-and attack-on-person clips should also wait until a safe no-contact simulation
-plan is reviewed. Head-banging and property-damage clips should also wait until
-a safe no-impact simulation plan is reviewed. Vomiting clips should also wait
-until a safe no-real-vomit simulation plan is reviewed. Keep clips short,
-usually 5-20 seconds.
+Keep high-risk clips short, usually 5-20 seconds. Do not add these labels to
+training until the files are validated and the metadata is regenerated.
 
 ## Scene Guidance
 

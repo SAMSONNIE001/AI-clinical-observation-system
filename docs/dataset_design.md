@@ -179,6 +179,8 @@ training only after safe simulations or approved footage exist:
 These are already part of the alarm contract, but they should remain rule-only
 or placeholder labels until clips are collected safely and reviewed.
 
+Use `docs/high_risk_simulation_guide.md` before recording these clips.
+
 This file is the first training handoff format. Later training scripts should
 read the manifest instead of guessing labels from filenames.
 
