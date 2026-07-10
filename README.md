@@ -125,8 +125,9 @@ python scripts/live_camera_detection.py
 
 The live camera script records short rolling clips from the webcam, classifies
 each clip with the baseline model, displays the prediction, and sounds a simple
-alarm for high-risk predictions. This is for testing the full workflow, not for
-clinical use.
+alarm only when high-risk predictions meet the confidence and repeated
+confirmation thresholds. This is for testing the full workflow, not for clinical
+use.
 
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk,
 visible bleeding, attack on person, and

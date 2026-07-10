@@ -42,6 +42,18 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="Optional folder to keep camera clips instead of using temporary files.",
     )
+    parser.add_argument(
+        "--alarm-threshold",
+        type=float,
+        default=0.70,
+        help="Minimum confidence required before a high-risk prediction can alarm.",
+    )
+    parser.add_argument(
+        "--alarm-confirmations",
+        type=int,
+        default=2,
+        help="Number of repeated high-risk predictions required before alarming.",
+    )
     return parser.parse_args()
 
 
@@ -67,6 +79,8 @@ def main() -> int:
     latest_confidence = 0.0
     latest_alarm = False
     latest_status = "collecting_frames"
+    confirmed_label = None
+    confirmed_count = 0
 
     print("Live camera detection started. Press q in the camera window to stop.")
     try:
@@ -95,7 +109,23 @@ def main() -> int:
                 result = predictor.predict(clip_path)
                 latest_label = result.predicted_behaviour or "unknown"
                 latest_confidence = result.confidence
-                latest_alarm = result.alarm_required
+                eligible_alarm = (
+                    result.alarm_required
+                    and latest_confidence >= args.alarm_threshold
+                )
+                if eligible_alarm and latest_label == confirmed_label:
+                    confirmed_count += 1
+                elif eligible_alarm:
+                    confirmed_label = latest_label
+                    confirmed_count = 1
+                else:
+                    confirmed_label = None
+                    confirmed_count = 0
+
+                latest_alarm = (
+                    eligible_alarm
+                    and confirmed_count >= args.alarm_confirmations
+                )
                 latest_status = result.status
                 last_prediction_at = now
 
@@ -103,7 +133,15 @@ def main() -> int:
                     sound_alarm()
                     print(
                         f"ALARM: {latest_label} "
-                        f"confidence={latest_confidence:.2f} status={latest_status}"
+                        f"confidence={latest_confidence:.2f} "
+                        f"confirmations={confirmed_count} status={latest_status}"
+                    )
+                elif result.alarm_required:
+                    print(
+                        f"review: {latest_label} "
+                        f"confidence={latest_confidence:.2f} "
+                        f"confirmations={confirmed_count}/"
+                        f"{args.alarm_confirmations} status={latest_status}"
                     )
                 else:
                     print(
