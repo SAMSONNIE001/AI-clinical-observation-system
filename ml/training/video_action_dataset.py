@@ -47,8 +47,13 @@ class VideoActionDataset(Dataset):
         return video, label
 
 
-def build_label_map(items: list[TrainingManifestItem]) -> dict[str, int]:
-    return {label: index for index, label in enumerate(sorted({item.label for item in items}))}
+def build_label_map(
+    items: list[TrainingManifestItem],
+    label_transform=None,
+) -> dict[str, int]:
+    transform = label_transform or (lambda label: label)
+    labels = {transform(item.label) for item in items}
+    return {label: index for index, label in enumerate(sorted(labels))}
 
 
 def build_samples(
@@ -56,14 +61,17 @@ def build_samples(
     label_map: dict[str, int],
     project_root: Path = Path("."),
     max_per_label: int | None = None,
+    label_transform=None,
 ) -> list[VideoActionSample]:
+    transform = label_transform or (lambda label: label)
     counts: dict[str, int] = {}
     samples: list[VideoActionSample] = []
 
     for item in items:
+        label = transform(item.label)
         if item.relative_path is None:
             continue
-        if max_per_label is not None and counts.get(item.label, 0) >= max_per_label:
+        if max_per_label is not None and counts.get(label, 0) >= max_per_label:
             continue
 
         video_path = Path(item.relative_path)
@@ -76,11 +84,11 @@ def build_samples(
             VideoActionSample(
                 video_id=item.video_id,
                 video_path=video_path,
-                label=item.label,
-                label_index=label_map[item.label],
+                label=label,
+                label_index=label_map[label],
             )
         )
-        counts[item.label] = counts.get(item.label, 0) + 1
+        counts[label] = counts.get(label, 0) + 1
 
     return samples
 

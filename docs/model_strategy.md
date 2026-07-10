@@ -53,23 +53,25 @@ scratch. The first implemented fine-tuning target is TorchVision `r3d_18`,
 pretrained on action-recognition video data, with a new classification head for
 the project labels.
 
-Fine-tuning command:
+The detailed 18-label classifier is too hard for the current dataset size. Train
+the grouped classifier first:
 
 ```text
-python -m ml.training.train_video_action_classifier --epochs 3 --batch-size 1
+python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 3 --batch-size 1
 ```
 
 The first run may download pretrained weights. The output checkpoint is written
-to `ml/models/video_action_classifier.pt`, which the combined clinical pipeline
-will use automatically when present.
+to `ml/models/video_action_grouped_classifier.pt`, which the combined clinical
+pipeline will use automatically when present.
 
 The fine-tuning workflow is:
 
 1. train/validation/test split from `dataset/training_manifest.jsonl`,
 2. frame sampling from each video,
-3. pretrained `r3d_18` video backbone,
-4. final classification head for the project labels,
-5. separate alarm threshold calibration for high-risk classes.
+3. grouped risk labels for the first reliable model,
+4. pretrained `r3d_18` video backbone,
+5. final classification head for grouped project labels,
+6. separate alarm threshold calibration for high-risk groups.
 
 The checkpoint file is ignored by Git by default because model weights can be
 large. If a trained checkpoint needs to be versioned, use Git LFS deliberately.

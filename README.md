@@ -152,15 +152,16 @@ python scripts/test_clinical_pipeline.py dataset/raw/pacing/pacing_001.mp4
 ```
 
 The first pretrained video/action classifier fine-tuning path uses TorchVision
-`r3d_18` with a new project-specific classification head:
+`r3d_18` with a new project-specific classification head. Train grouped labels
+first because the 18 detailed labels are too sparse for the current dataset:
 
 ```text
-python -m ml.training.train_video_action_classifier --epochs 3 --batch-size 1
+python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 3 --batch-size 1
 ```
 
-When `ml/models/video_action_classifier.pt` exists, the combined pipeline uses
-it for behavior classification. Until then, it falls back to the baseline
-classifier.
+When `ml/models/video_action_grouped_classifier.pt` exists, the combined
+pipeline uses it for risk-group classification. Until then, it falls back to the
+baseline classifier.
 
 YOLO weights may download the first time this command is run. The simulated
 videos remain useful for fine-tuning and validation; they are not intended to

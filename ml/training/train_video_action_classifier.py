@@ -16,11 +16,14 @@ from ml.training.video_action_dataset import (
     build_label_map,
     build_samples,
 )
+from ml.training.label_groups import grouped_label
 
 
 DEFAULT_MANIFEST = Path("dataset/training_manifest.jsonl")
 DEFAULT_OUTPUT = Path("ml/models/video_action_classifier.pt")
 DEFAULT_LABEL_MAP = Path("ml/models/video_action_labels.json")
+DEFAULT_GROUPED_OUTPUT = Path("ml/models/video_action_grouped_classifier.pt")
+DEFAULT_GROUPED_LABEL_MAP = Path("ml/models/video_action_grouped_labels.json")
 
 
 def main() -> None:
@@ -28,8 +31,14 @@ def main() -> None:
         description="Fine-tune a pretrained TorchVision video action classifier."
     )
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
-    parser.add_argument("--label-map-output", type=Path, default=DEFAULT_LABEL_MAP)
+    parser.add_argument("--output", type=Path, default=None)
+    parser.add_argument("--label-map-output", type=Path, default=None)
+    parser.add_argument(
+        "--label-mode",
+        choices=("detailed", "grouped"),
+        default="detailed",
+        help="Train on detailed behaviour labels or broader grouped risk labels.",
+    )
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--learning-rate", type=float, default=1e-3)
@@ -48,16 +57,30 @@ def main() -> None:
         help="Train the whole model instead of only the final classification head.",
     )
     args = parser.parse_args()
+    if args.output is None:
+        args.output = (
+            DEFAULT_GROUPED_OUTPUT
+            if args.label_mode == "grouped"
+            else DEFAULT_OUTPUT
+        )
+    if args.label_map_output is None:
+        args.label_map_output = (
+            DEFAULT_GROUPED_LABEL_MAP
+            if args.label_mode == "grouped"
+            else DEFAULT_LABEL_MAP
+        )
 
     items = load_training_manifest(args.manifest)
     if not items:
         raise ValueError(f"No training items found in {args.manifest}")
 
-    label_map = build_label_map(items)
+    label_transform = grouped_label if args.label_mode == "grouped" else None
+    label_map = build_label_map(items, label_transform=label_transform)
     samples = build_samples(
         items=items,
         label_map=label_map,
         max_per_label=args.max_per_label,
+        label_transform=label_transform,
     )
     train_samples, test_samples = split_samples(samples, test_every=args.test_every)
     if not train_samples or not test_samples:
@@ -128,6 +151,7 @@ def main() -> None:
         best_accuracy=best_accuracy,
         clip_frames=args.clip_frames,
         frame_size=args.frame_size,
+        label_mode=args.label_mode,
     )
     print(f"Wrote video action classifier checkpoint to {args.output}")
 
@@ -205,11 +229,13 @@ def save_checkpoint(
     best_accuracy: float,
     clip_frames: int,
     frame_size: int,
+    label_mode: str,
 ) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     torch.save(
         {
             "model_type": "torchvision_r3d18",
+            "label_mode": label_mode,
             "model_state_dict": model.state_dict(),
             "labels": labels,
             "train_count": train_count,

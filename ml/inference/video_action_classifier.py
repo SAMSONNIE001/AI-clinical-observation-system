@@ -13,6 +13,7 @@ class VideoActionPrediction:
     label: str
     confidence: float
     model_version: str
+    label_mode: str
 
 
 class TorchVisionVideoActionClassifier:
@@ -31,6 +32,7 @@ class TorchVisionVideoActionClassifier:
             weights_only=False,
         )
         self.labels = list(checkpoint["labels"])
+        self.label_mode = str(checkpoint.get("label_mode", "detailed"))
         self.clip_frames = int(checkpoint.get("clip_frames", 16))
         self.frame_size = int(checkpoint.get("frame_size", 112))
         self.model = build_r3d18_model(num_classes=len(self.labels), pretrained=False)
@@ -55,6 +57,7 @@ class TorchVisionVideoActionClassifier:
             label=self.labels[int(label_index)],
             confidence=float(confidence),
             model_version=self.model_version,
+            label_mode=self.label_mode,
         )
 
 

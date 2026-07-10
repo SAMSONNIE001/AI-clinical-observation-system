@@ -7,6 +7,7 @@ from app.domain.risk import (
     risk_level_for_behaviour,
 )
 from ml.inference.predictor import BaselineVideoClassifierPredictor, PredictionResult
+from ml.training.label_groups import action_group_alarm_required
 
 
 class PretrainedClinicalObservationPipeline:
@@ -35,15 +36,25 @@ class PretrainedClinicalObservationPipeline:
         if video_path is None:
             return baseline_result
 
-        action_label, action_confidence, action_status, action_version = (
+        (
+            action_label,
+            action_confidence,
+            action_status,
+            action_version,
+            action_label_mode,
+        ) = (
             self._predict_action(video_path)
         )
         dangerous_objects, object_status = self._detect_dangerous_objects(video_path)
         pose_status = self._analyze_pose(video_path)
-        predicted_label = action_label or baseline_result.predicted_behaviour
+        predicted_label = (
+            action_label
+            if action_label_mode == "detailed"
+            else baseline_result.predicted_behaviour
+        )
         confidence = (
             action_confidence
-            if action_label is not None
+            if action_label_mode == "detailed" and action_label is not None
             else baseline_result.confidence
         )
 
@@ -54,10 +65,20 @@ class PretrainedClinicalObservationPipeline:
         )
         object_alarm_required = alarm_required_for_objects(dangerous_objects)
         behaviour_alarm_required = alarm_required_for_behaviour(behaviour)
-        alarm_required = behaviour_alarm_required or object_alarm_required
+        action_group_alarm = (
+            action_group_alarm_required(action_label)
+            if action_label_mode == "grouped"
+            else False
+        )
+        alarm_required = (
+            behaviour_alarm_required
+            or object_alarm_required
+            or action_group_alarm
+        )
         alarm_reason = self._alarm_reason(
             behaviour_alarm_required=behaviour_alarm_required,
             object_alarm_required=object_alarm_required,
+            action_group_alarm=action_group_alarm,
         )
 
         return PredictionResult(
@@ -74,19 +95,23 @@ class PretrainedClinicalObservationPipeline:
             status=baseline_result.status,
             message=(
                 f"{baseline_result.message} "
-                f"Action classifier status: {action_status}. "
+                f"Action classifier status: {action_status}"
+                f"{self._action_label_message(action_label, action_label_mode)}. "
                 f"Object detector status: {object_status}. "
                 f"Pose analyzer status: {pose_status}."
             ),
         )
 
-    def _predict_action(self, video_path: Path) -> tuple[str | None, float, str, str | None]:
+    def _predict_action(
+        self,
+        video_path: Path,
+    ) -> tuple[str | None, float, str, str | None, str | None]:
         if self.action_model_path is None:
-            return None, 0.0, "not_configured", None
+            return None, 0.0, "not_configured", None, None
         if not self.action_model_path.exists():
-            return None, 0.0, "checkpoint_not_found", None
+            return None, 0.0, "checkpoint_not_found", None, None
         if self._action_classifier_error is not None:
-            return None, 0.0, self._action_classifier_error, None
+            return None, 0.0, self._action_classifier_error, None, None
 
         try:
             if self._action_classifier is None:
@@ -104,10 +129,11 @@ class PretrainedClinicalObservationPipeline:
                 prediction.confidence,
                 "ok",
                 prediction.model_version,
+                prediction.label_mode,
             )
         except Exception as exc:
             self._action_classifier_error = f"unavailable ({exc})"
-            return None, 0.0, self._action_classifier_error, None
+            return None, 0.0, self._action_classifier_error, None, None
 
     def _detect_dangerous_objects(self, video_path: Path) -> tuple[list[str], str]:
         if not self.enable_objects:
@@ -169,14 +195,26 @@ class PretrainedClinicalObservationPipeline:
         self,
         behaviour_alarm_required: bool,
         object_alarm_required: bool,
+        action_group_alarm: bool,
     ) -> str | None:
         if behaviour_alarm_required and object_alarm_required:
             return "High-risk behaviour and dangerous object detected."
         if object_alarm_required:
             return "Dangerous object detected."
+        if action_group_alarm:
+            return "High-risk action group detected."
         if behaviour_alarm_required:
             return "High-risk behaviour detected."
         return None
+
+    def _action_label_message(
+        self,
+        action_label: str | None,
+        action_label_mode: str | None,
+    ) -> str:
+        if action_label is None:
+            return ""
+        return f" label={action_label} label_mode={action_label_mode}"
 
     def risk_level(self, label: str | None) -> str:
         if label is None:

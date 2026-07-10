@@ -10,7 +10,7 @@ from app.schemas.detection import DetectionRequest, DetectionResponse
 STUB_MODEL_VERSION = "stub-v0"
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 BASELINE_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "baseline_video_classifier.json"
-ACTION_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "video_action_classifier.pt"
+ACTION_MODEL_PATH = PROJECT_ROOT / "ml" / "models" / "video_action_grouped_classifier.pt"
 
 
 def predict_behaviour(payload: DetectionRequest) -> DetectionResponse:
