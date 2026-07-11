@@ -137,8 +137,13 @@ currently maps COCO `knife` and `scissors` detections into
 `dangerous_objects_detected`, which can trigger the alarm contract:
 
 ```text
+python scripts/download_yolo_weights.py
 python scripts/test_pretrained_object_detector.py dataset/raw/sharp_object_detected/sharp_object_detected_001.mp4
 ```
+
+YOLO weights are stored locally at `ml/models/yolov8n.pt` and ignored by Git.
+Normal API/live-camera runs do not auto-download weights; run the download
+script once during setup.
 
 MediaPipe pose movement can be tested separately:
 
@@ -177,11 +182,10 @@ Inspect the saved grouped checkpoint with:
 python scripts/inspect_video_action_checkpoint.py
 ```
 
-YOLO weights may download the first time this command is run. The simulated
-videos remain useful for fine-tuning and validation; they are not intended to
-train the whole vision model from scratch. For final classification, a
-pretrained video/action model is preferred over a plain CNN because many labels
-depend on movement over time. See `docs/model_strategy.md` for the model
+The simulated videos remain useful for fine-tuning and validation; they are not
+intended to train the whole vision model from scratch. For final classification,
+a pretrained video/action model is preferred over a plain CNN because many
+labels depend on movement over time. See `docs/model_strategy.md` for the model
 selection plan.
 
 High-risk behaviours such as falls, choking simulation, vomiting, ligature risk,

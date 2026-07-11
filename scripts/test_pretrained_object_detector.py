@@ -8,6 +8,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from ml.inference.object_detector import (
+    DEFAULT_YOLO_MODEL_PATH,
     PretrainedObjectDetector,
     dangerous_objects_from_detections,
 )
@@ -20,7 +21,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("video_path", type=Path, help="Path to the video to inspect.")
     parser.add_argument(
         "--model",
-        default="yolov8n.pt",
+        default=DEFAULT_YOLO_MODEL_PATH,
         help="YOLO model name or local model path.",
     )
     parser.add_argument(

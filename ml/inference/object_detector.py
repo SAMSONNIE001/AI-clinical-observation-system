@@ -4,6 +4,8 @@ from pathlib import Path
 import cv2
 
 
+DEFAULT_YOLO_MODEL_PATH = Path(__file__).resolve().parents[1] / "models" / "yolov8n.pt"
+
 DANGEROUS_COCO_OBJECTS = {
     "knife": "knife",
     "scissors": "scissors",
@@ -22,12 +24,19 @@ class PretrainedObjectDetector:
 
     def __init__(
         self,
-        model_name: str = "yolov8n.pt",
+        model_name: str | Path = DEFAULT_YOLO_MODEL_PATH,
         confidence_threshold: float = 0.35,
     ) -> None:
         from ultralytics import YOLO
 
-        self.model = YOLO(model_name)
+        model_path = Path(model_name)
+        if not model_path.exists():
+            raise FileNotFoundError(
+                f"YOLO model weights not found: {model_path}. "
+                "Run `python scripts/download_yolo_weights.py` first."
+            )
+
+        self.model = YOLO(str(model_path))
         self.confidence_threshold = confidence_threshold
 
     def detect_video(
