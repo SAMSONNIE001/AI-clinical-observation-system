@@ -83,6 +83,14 @@ class PretrainedClinicalObservationPipeline:
             dangerous_objects_detected=dangerous_objects,
             alarm_required=alarm_required,
             alarm_reason=alarm_reason,
+            risk_group=risk_assessment.risk_group,
+            risk_level=(
+                "high"
+                if behaviour_alarm_required
+                else risk_assessment.risk_level
+            ),
+            risk_reasons=risk_assessment.reasons,
+            observation_summary=risk_assessment.observation_summary,
             model_version=self._model_version(
                 action_version=action_version,
                 object_status=object_status,

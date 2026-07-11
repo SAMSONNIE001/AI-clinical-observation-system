@@ -15,6 +15,10 @@ class PredictionResult:
     dangerous_objects_detected: list[str]
     alarm_required: bool
     alarm_reason: str | None
+    risk_group: str | None
+    risk_level: str
+    risk_reasons: list[str]
+    observation_summary: str | None
     model_version: str
     status: str
     message: str
@@ -30,6 +34,10 @@ class StubBehaviourPredictor:
             dangerous_objects_detected=[],
             alarm_required=False,
             alarm_reason=None,
+            risk_group=None,
+            risk_level="low",
+            risk_reasons=[],
+            observation_summary=None,
             model_version=self.model_version,
             status="model_not_connected",
             message="Real behaviour detection model is not connected yet.",
@@ -54,6 +62,10 @@ class BaselineVideoClassifierPredictor:
                 dangerous_objects_detected=[],
                 alarm_required=False,
                 alarm_reason=None,
+                risk_group=None,
+                risk_level="low",
+                risk_reasons=[],
+                observation_summary=None,
                 model_version=self.model_version,
                 status="missing_video_path",
                 message="A video_path is required for baseline video classification.",
@@ -70,6 +82,14 @@ class BaselineVideoClassifierPredictor:
             dangerous_objects_detected=[],
             alarm_required=alarm_required,
             alarm_reason="High-risk behaviour detected." if alarm_required else None,
+            risk_group=label,
+            risk_level="high" if alarm_required else "low",
+            risk_reasons=["High-risk behaviour detected."] if alarm_required else [],
+            observation_summary=(
+                f"Baseline classifier predicted {label}."
+                if label
+                else None
+            ),
             model_version=self.model_version,
             status="ok",
             message="Baseline video classifier prediction completed.",

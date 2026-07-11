@@ -94,8 +94,11 @@ def main() -> int:
     latest_label = "warming_up"
     latest_confidence = 0.0
     latest_alarm = False
+    latest_risk_group = "warming_up"
+    latest_risk_level = "low"
+    latest_summary = "Collecting frames."
     latest_status = "collecting_frames"
-    confirmed_label = None
+    confirmed_risk_group = None
     confirmed_count = 0
 
     print("Live camera detection started. Press q in the camera window to stop.")
@@ -125,17 +128,27 @@ def main() -> int:
                 result = predictor.predict(clip_path)
                 latest_label = result.predicted_behaviour or "unknown"
                 latest_confidence = result.confidence
+                latest_risk_group = result.risk_group or "unknown"
+                latest_risk_level = result.risk_level
+                latest_summary = (
+                    result.observation_summary
+                    or result.alarm_reason
+                    or "No observation summary."
+                )
                 eligible_alarm = (
                     result.alarm_required
-                    and latest_confidence >= args.alarm_threshold
+                    and (
+                        latest_risk_level == "high"
+                        or latest_confidence >= args.alarm_threshold
+                    )
                 )
-                if eligible_alarm and latest_label == confirmed_label:
+                if eligible_alarm and latest_risk_group == confirmed_risk_group:
                     confirmed_count += 1
                 elif eligible_alarm:
-                    confirmed_label = latest_label
+                    confirmed_risk_group = latest_risk_group
                     confirmed_count = 1
                 else:
-                    confirmed_label = None
+                    confirmed_risk_group = None
                     confirmed_count = 0
 
                 latest_alarm = (
@@ -148,21 +161,30 @@ def main() -> int:
                 if latest_alarm:
                     sound_alarm()
                     print(
-                        f"ALARM: {latest_label} "
+                        f"ALARM: risk_group={latest_risk_group} "
+                        f"risk_level={latest_risk_level} "
+                        f"behaviour={latest_label} "
                         f"confidence={latest_confidence:.2f} "
-                        f"confirmations={confirmed_count} status={latest_status}"
+                        f"confirmations={confirmed_count} "
+                        f"summary={latest_summary} status={latest_status}"
                     )
                 elif result.alarm_required:
                     print(
-                        f"review: {latest_label} "
+                        f"review: risk_group={latest_risk_group} "
+                        f"risk_level={latest_risk_level} "
+                        f"behaviour={latest_label} "
                         f"confidence={latest_confidence:.2f} "
                         f"confirmations={confirmed_count}/"
-                        f"{args.alarm_confirmations} status={latest_status}"
+                        f"{args.alarm_confirmations} "
+                        f"summary={latest_summary} status={latest_status}"
                     )
                 else:
                     print(
-                        f"{latest_label} "
-                        f"confidence={latest_confidence:.2f} status={latest_status}"
+                        f"risk_group={latest_risk_group} "
+                        f"risk_level={latest_risk_level} "
+                        f"behaviour={latest_label} "
+                        f"confidence={latest_confidence:.2f} "
+                        f"summary={latest_summary} status={latest_status}"
                     )
 
                 if args.output_dir is None:
@@ -173,6 +195,9 @@ def main() -> int:
                 label=latest_label,
                 confidence=latest_confidence,
                 alarm=latest_alarm,
+                risk_group=latest_risk_group,
+                risk_level=latest_risk_level,
+                summary=latest_summary,
                 status=latest_status,
             )
             cv2.imshow("AI Clinical Observation - Live Detection", frame)
@@ -226,14 +251,17 @@ def draw_overlay(
     label: str,
     confidence: float,
     alarm: bool,
+    risk_group: str,
+    risk_level: str,
+    summary: str,
     status: str,
 ) -> None:
     colour = (0, 0, 255) if alarm else (0, 180, 0)
     alarm_text = "ALARM" if alarm else "monitoring"
-    cv2.rectangle(frame, (0, 0), (frame.shape[1], 86), (20, 20, 20), -1)
+    cv2.rectangle(frame, (0, 0), (frame.shape[1], 116), (20, 20, 20), -1)
     cv2.putText(
         frame,
-        f"{alarm_text}: {label} ({confidence:.2f})",
+        f"{alarm_text}: {risk_group} [{risk_level}]",
         (16, 34),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.8,
@@ -243,7 +271,7 @@ def draw_overlay(
     )
     cv2.putText(
         frame,
-        f"status={status} | press q to stop",
+        f"behaviour={label} confidence={confidence:.2f}",
         (16, 68),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
@@ -251,6 +279,22 @@ def draw_overlay(
         1,
         cv2.LINE_AA,
     )
+    cv2.putText(
+        frame,
+        f"{shorten_text(summary, 86)} | status={status} | q to stop",
+        (16, 98),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.48,
+        (230, 230, 230),
+        1,
+        cv2.LINE_AA,
+    )
+
+
+def shorten_text(text: str, max_length: int) -> str:
+    if len(text) <= max_length:
+        return text
+    return text[: max_length - 3] + "..."
 
 
 def sound_alarm() -> None:

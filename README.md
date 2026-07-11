@@ -124,10 +124,10 @@ python scripts/live_camera_detection.py
 ```
 
 The live camera script records short rolling clips from the webcam, classifies
-each clip with the baseline model, displays the prediction, and sounds a simple
-alarm only when high-risk predictions meet the confidence and repeated
-confirmation thresholds. This is for testing the full workflow, not for clinical
-use.
+each clip with the combined clinical pipeline, displays the structured risk
+group, risk level, behaviour prediction, and observation summary, and sounds a
+simple alarm only when high-risk predictions meet the repeated confirmation
+threshold. This is for testing the full workflow, not for clinical use.
 
 The pretrained model path combines YOLO object detection, MediaPipe pose
 movement analysis, and a later pretrained video/action classifier. YOLO

@@ -57,6 +57,10 @@ def predict_behaviour(payload: DetectionRequest) -> DetectionResponse:
         dangerous_objects_detected=prediction.dangerous_objects_detected,
         alarm_required=prediction.alarm_required,
         alarm_reason=prediction.alarm_reason,
+        risk_group=prediction.risk_group,
+        risk_level=prediction.risk_level,
+        risk_reasons=prediction.risk_reasons,
+        observation_summary=prediction.observation_summary,
         model_version=prediction.model_version,
         status=prediction.status,
         message=prediction.message,
@@ -85,6 +89,10 @@ def _stub_response(
             if alarm_required
             else None
         ),
+        risk_group=None,
+        risk_level="low",
+        risk_reasons=[],
+        observation_summary=None,
         model_version=STUB_MODEL_VERSION,
         status=status,
         message=message,

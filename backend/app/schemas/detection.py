@@ -17,6 +17,10 @@ class DetectionResponse(BaseModel):
     dangerous_objects_detected: list[str] = Field(default_factory=list)
     alarm_required: bool = False
     alarm_reason: str | None = None
+    risk_group: str | None = None
+    risk_level: str = "low"
+    risk_reasons: list[str] = Field(default_factory=list)
+    observation_summary: str | None = None
     model_version: str
     status: str
     message: str
