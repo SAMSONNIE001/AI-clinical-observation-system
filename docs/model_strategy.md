@@ -64,6 +64,9 @@ The first run may download pretrained weights. The output checkpoint is written
 to `ml/models/video_action_grouped_classifier.pt`, which the combined clinical
 pipeline will use automatically when present.
 
+The trainer saves the best validation epoch, not just the last epoch. This
+matters when accuracy rises and then falls during later epochs.
+
 The fine-tuning workflow is:
 
 1. train/validation/test split from `dataset/training_manifest.jsonl`,

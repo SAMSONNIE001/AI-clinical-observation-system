@@ -163,6 +163,12 @@ When `ml/models/video_action_grouped_classifier.pt` exists, the combined
 pipeline uses it for risk-group classification. Until then, it falls back to the
 baseline classifier.
 
+Inspect the saved grouped checkpoint with:
+
+```text
+python scripts/inspect_video_action_checkpoint.py
+```
+
 YOLO weights may download the first time this command is run. The simulated
 videos remain useful for fine-tuning and validation; they are not intended to
 train the whole vision model from scratch. For final classification, a

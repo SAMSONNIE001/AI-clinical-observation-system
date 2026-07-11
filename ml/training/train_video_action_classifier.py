@@ -1,4 +1,5 @@
 import argparse
+import copy
 import json
 import random
 from collections import defaultdict
@@ -123,7 +124,10 @@ def main() -> None:
     optimizer = torch.optim.AdamW(trainable_parameters, lr=args.learning_rate)
     loss_function = nn.CrossEntropyLoss()
 
-    best_accuracy = 0.0
+    best_accuracy = -1.0
+    best_epoch = 0
+    best_model_state = copy.deepcopy(model.state_dict())
+    history = []
     for epoch in range(1, args.epochs + 1):
         train_loss = train_one_epoch(
             model=model,
@@ -133,7 +137,17 @@ def main() -> None:
             device=device,
         )
         accuracy = evaluate(model=model, loader=test_loader, device=device)
-        best_accuracy = max(best_accuracy, accuracy)
+        history.append(
+            {
+                "epoch": epoch,
+                "train_loss": train_loss,
+                "test_accuracy": accuracy,
+            }
+        )
+        if accuracy > best_accuracy:
+            best_accuracy = accuracy
+            best_epoch = epoch
+            best_model_state = copy.deepcopy(model.state_dict())
         print(
             f"epoch={epoch} "
             f"train_loss={train_loss:.4f} "
@@ -143,17 +157,22 @@ def main() -> None:
     save_checkpoint(
         output_path=args.output,
         label_map_output=args.label_map_output,
-        model=model,
+        model_state_dict=best_model_state,
         labels=labels,
         label_map=label_map,
         train_count=len(train_samples),
         test_count=len(test_samples),
         best_accuracy=best_accuracy,
+        best_epoch=best_epoch,
+        history=history,
         clip_frames=args.clip_frames,
         frame_size=args.frame_size,
         label_mode=args.label_mode,
     )
-    print(f"Wrote video action classifier checkpoint to {args.output}")
+    print(
+        f"Wrote best video action classifier checkpoint to {args.output} "
+        f"(best_epoch={best_epoch}, best_accuracy={best_accuracy:.3f})"
+    )
 
 
 def split_samples(
@@ -221,12 +240,14 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> floa
 def save_checkpoint(
     output_path: Path,
     label_map_output: Path,
-    model: nn.Module,
+    model_state_dict: dict[str, torch.Tensor],
     labels: list[str],
     label_map: dict[str, int],
     train_count: int,
     test_count: int,
     best_accuracy: float,
+    best_epoch: int,
+    history: list[dict[str, float | int]],
     clip_frames: int,
     frame_size: int,
     label_mode: str,
@@ -236,11 +257,13 @@ def save_checkpoint(
         {
             "model_type": "torchvision_r3d18",
             "label_mode": label_mode,
-            "model_state_dict": model.state_dict(),
+            "model_state_dict": model_state_dict,
             "labels": labels,
             "train_count": train_count,
             "test_count": test_count,
             "best_accuracy": best_accuracy,
+            "best_epoch": best_epoch,
+            "history": history,
             "clip_frames": clip_frames,
             "frame_size": frame_size,
         },
