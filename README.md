@@ -84,6 +84,7 @@ The first phase builds the system that the AI components will plug into. Model t
 - `POST /api/v1/dataset/exports/training-manifest`
 - `POST /api/v1/detection/predict`
 - `POST /api/v1/observation-notes/generate`
+- `POST /api/v1/observation-notes/generate-from-risk`
 
 The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
 
@@ -189,6 +190,13 @@ alarm contract so staff-facing workflows can trigger urgent review.
 
 The observation note endpoint generates draft staff-review notes from a labelled
 behaviour event. Notes are not final clinical records until reviewed by staff.
+The risk observation note endpoint generates draft notes from structured risk
+engine output such as risk group, risk level, reasons, detected objects, and
+observation summary:
+
+```text
+python scripts/test_risk_observation_note.py
+```
 
 ## Research Direction
 
