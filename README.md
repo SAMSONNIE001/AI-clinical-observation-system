@@ -153,13 +153,19 @@ MediaPipe pose movement can be tested separately:
 
 ```text
 pip install -r backend/requirements-vision.txt
+python scripts/download_mediapipe_pose_model.py
 python scripts/test_mediapipe_pose.py dataset/raw/pacing/pacing_001.mp4
 ```
 
-This pose path expects a MediaPipe package that provides `mp.solutions.pose`.
-If your installed MediaPipe package only exposes the newer `tasks` API, the
-combined pipeline will report pose analysis as unavailable and continue with
-YOLO/object cues and the action classifier.
+MediaPipe pose model files are stored locally under `ml/models/*.task` and
+ignored by Git. The pose analyzer supports both the older `mp.solutions.pose`
+API and the current MediaPipe Tasks Pose Landmarker video API when the local
+`.task` model exists.
+
+The combined risk engine fuses signals instead of treating them as separate
+systems. A video can contain both body movement and object cues, such as pacing
+while holding a sharp object. In that case the pipeline keeps both reasons and
+can raise a high-risk alarm from the combined object-plus-movement signal.
 
 The combined pipeline can be tested with:
 
@@ -192,7 +198,7 @@ python scripts/inspect_video_action_checkpoint.py
 ```
 
 The simulated videos remain useful for fine-tuning and validation; they are not
-intended to train the whole vision model from scratch. For final classification,
+intended to train YOLO or MediaPipe from scratch. For final classification,
 a pretrained video/action model is preferred over a plain CNN because many
 labels depend on movement over time. See `docs/model_strategy.md` for the model
 selection plan.

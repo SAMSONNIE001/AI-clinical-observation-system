@@ -21,6 +21,34 @@ def main() -> int:
             action_group="normal_activity",
             clinical_object_cues=["possible_ligature_cue"],
         ),
+        "dangerous_object_with_movement": RiskSignalSnapshot(
+            action_group="normal_activity",
+            dangerous_objects=["knife"],
+            pose_summary=PoseMovementSummary(
+                frames_sampled=12,
+                pose_frames=12,
+                pose_coverage=1.0,
+                mean_motion=0.08,
+                max_motion=0.4,
+                vertical_motion=0.2,
+                horizontal_motion=0.5,
+                posture_change=0.1,
+            ),
+        ),
+        "clinical_object_cue_with_movement": RiskSignalSnapshot(
+            action_group="normal_activity",
+            clinical_object_cues=["possible_ligature_cue"],
+            pose_summary=PoseMovementSummary(
+                frames_sampled=12,
+                pose_frames=12,
+                pose_coverage=1.0,
+                mean_motion=0.08,
+                max_motion=0.4,
+                vertical_motion=0.2,
+                horizontal_motion=0.5,
+                posture_change=0.1,
+            ),
+        ),
         "high_movement": RiskSignalSnapshot(
             action_group="normal_activity",
             pose_summary=PoseMovementSummary(

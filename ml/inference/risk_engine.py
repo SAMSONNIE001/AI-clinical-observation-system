@@ -38,6 +38,17 @@ class RiskAssessment:
 def assess_risk(signals: RiskSignalSnapshot) -> RiskAssessment:
     reasons: list[str] = []
     candidate_groups: list[tuple[str, str, str]] = []
+    pose_group = _pose_risk_group(signals.pose_summary)
+
+    if signals.dangerous_objects and pose_group is not None:
+        objects = ", ".join(signals.dangerous_objects)
+        candidate_groups.append(
+            (
+                OBJECT_SELF_HARM_RISK,
+                "high",
+                f"Dangerous object cue detected with body movement signal: {objects}.",
+            )
+        )
 
     if signals.dangerous_objects:
         objects = ", ".join(signals.dangerous_objects)
@@ -46,6 +57,16 @@ def assess_risk(signals: RiskSignalSnapshot) -> RiskAssessment:
                 OBJECT_SELF_HARM_RISK,
                 "high",
                 f"Dangerous object cue detected: {objects}.",
+            )
+        )
+
+    if signals.clinical_object_cues and pose_group is not None:
+        cues = ", ".join(signals.clinical_object_cues)
+        candidate_groups.append(
+            (
+                OBJECT_SELF_HARM_RISK,
+                "medium",
+                f"Clinical object caution cue detected with body movement signal: {cues}.",
             )
         )
 
@@ -76,7 +97,6 @@ def assess_risk(signals: RiskSignalSnapshot) -> RiskAssessment:
             )
         )
 
-    pose_group = _pose_risk_group(signals.pose_summary)
     if pose_group is not None:
         candidate_groups.append(pose_group)
 
@@ -111,11 +131,11 @@ def _pose_risk_group(
     if pose_summary is None or pose_summary.pose_coverage < 0.4:
         return None
 
-    if pose_summary.posture_change >= 0.22 or pose_summary.vertical_motion >= 0.70:
+    if pose_summary.posture_change >= 0.22:
         return (
             MEDICAL_SAFETY_RISK,
             "medium",
-            "Large posture or vertical movement change detected.",
+            "Large posture change detected.",
         )
 
     if pose_summary.mean_motion >= 0.055 or pose_summary.max_motion >= 0.35:

@@ -10,4 +10,5 @@ dataset/rejected/
 ml/models/*.pt
 ml/models/*.pth
 ml/models/*.onnx
+ml/models/*.task
 ml/models/*_labels.json
