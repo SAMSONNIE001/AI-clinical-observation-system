@@ -85,6 +85,7 @@ The first phase builds the system that the AI components will plug into. Model t
 - `POST /api/v1/detection/predict`
 - `POST /api/v1/observation-notes/generate`
 - `POST /api/v1/observation-notes/generate-from-risk`
+- `POST /api/v1/observation-notes/generate-from-detection`
 
 The video upload endpoint accepts `.mp4`, `.avi`, `.mov`, and `.mkv` files and stores them locally under backend storage for later dataset management and behaviour detection.
 
@@ -196,6 +197,13 @@ observation summary:
 
 ```text
 python scripts/test_risk_observation_note.py
+```
+
+The detection-to-note workflow runs video detection first, then generates a
+staff-review draft note from the structured risk result:
+
+```text
+python scripts/test_detection_observation_workflow.py
 ```
 
 ## Research Direction

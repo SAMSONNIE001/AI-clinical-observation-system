@@ -1,8 +1,10 @@
 from datetime import datetime
+from pathlib import Path
 
 from pydantic import BaseModel, Field
 
 from app.domain.enums import BehaviourType, RiskLevel
+from app.schemas.detection import DetectionResponse
 
 
 class ObservationNoteGenerateRequest(BaseModel):
@@ -32,6 +34,16 @@ class RiskObservationNoteGenerateRequest(BaseModel):
     additional_context: str | None = None
 
 
+class DetectionObservationNoteGenerateRequest(BaseModel):
+    patient_id: int
+    video_id: str
+    video_path: Path | None = None
+    session_id: int | None = None
+    camera_id: str | None = None
+    observed_at: datetime | None = None
+    additional_context: str | None = None
+
+
 class ObservationNoteResponse(BaseModel):
     id: str
     patient_id: int
@@ -45,3 +57,8 @@ class ObservationNoteResponse(BaseModel):
     note: str
     requires_staff_review: bool
     reviewed: bool
+
+
+class DetectionObservationNoteResponse(BaseModel):
+    detection: DetectionResponse
+    observation_note: ObservationNoteResponse
