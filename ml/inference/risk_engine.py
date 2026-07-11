@@ -22,6 +22,7 @@ class RiskSignalSnapshot:
     action_group: str | None = None
     action_confidence: float = 0.0
     dangerous_objects: list[str] = field(default_factory=list)
+    clinical_object_cues: list[str] = field(default_factory=list)
     pose_summary: PoseMovementSummary | None = None
 
 
@@ -45,6 +46,16 @@ def assess_risk(signals: RiskSignalSnapshot) -> RiskAssessment:
                 OBJECT_SELF_HARM_RISK,
                 "high",
                 f"Dangerous object cue detected: {objects}.",
+            )
+        )
+
+    if signals.clinical_object_cues:
+        cues = ", ".join(signals.clinical_object_cues)
+        candidate_groups.append(
+            (
+                OBJECT_SELF_HARM_RISK,
+                "medium",
+                f"Clinical object caution cue detected: {cues}.",
             )
         )
 

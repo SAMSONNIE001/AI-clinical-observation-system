@@ -44,7 +44,9 @@ class PretrainedClinicalObservationPipeline:
         ) = (
             self._predict_action(video_path)
         )
-        dangerous_objects, object_status = self._detect_dangerous_objects(video_path)
+        dangerous_objects, clinical_object_cues, object_status = (
+            self._detect_dangerous_objects(video_path)
+        )
         pose_summary, pose_status = self._analyze_pose(video_path)
         predicted_label = (
             action_label
@@ -68,6 +70,7 @@ class PretrainedClinicalObservationPipeline:
                 action_group=action_label if action_label_mode == "grouped" else None,
                 action_confidence=action_confidence,
                 dangerous_objects=dangerous_objects,
+                clinical_object_cues=clinical_object_cues,
                 pose_summary=pose_summary,
             )
         )
@@ -142,11 +145,14 @@ class PretrainedClinicalObservationPipeline:
             self._action_classifier_error = f"unavailable ({exc})"
             return None, 0.0, self._action_classifier_error, None, None
 
-    def _detect_dangerous_objects(self, video_path: Path) -> tuple[list[str], str]:
+    def _detect_dangerous_objects(
+        self,
+        video_path: Path,
+    ) -> tuple[list[str], list[str], str]:
         if not self.enable_objects:
-            return [], "disabled"
+            return [], [], "disabled"
         if self._object_detector_error is not None:
-            return [], self._object_detector_error
+            return [], [], self._object_detector_error
 
         try:
             if self._object_detector is None:
@@ -154,13 +160,20 @@ class PretrainedClinicalObservationPipeline:
 
                 self._object_detector = PretrainedObjectDetector()
 
-            from ml.inference.object_detector import dangerous_objects_from_detections
+            from ml.inference.object_detector import (
+                clinical_object_cues_from_detections,
+                dangerous_objects_from_detections,
+            )
 
             detections = self._object_detector.detect_video(video_path)
-            return dangerous_objects_from_detections(detections), "ok"
+            return (
+                dangerous_objects_from_detections(detections),
+                clinical_object_cues_from_detections(detections),
+                "ok",
+            )
         except Exception as exc:
             self._object_detector_error = f"unavailable ({exc})"
-            return [], self._object_detector_error
+            return [], [], self._object_detector_error
 
     def _analyze_pose(self, video_path: Path):
         if not self.enable_pose:

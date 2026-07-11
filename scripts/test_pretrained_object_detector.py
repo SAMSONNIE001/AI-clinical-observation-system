@@ -10,6 +10,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from ml.inference.object_detector import (
     DEFAULT_YOLO_MODEL_PATH,
     PretrainedObjectDetector,
+    clinical_object_cues_from_detections,
     dangerous_objects_from_detections,
 )
 
@@ -58,10 +59,12 @@ def main() -> int:
         sample_count=args.sample_count,
     )
     dangerous_objects = dangerous_objects_from_detections(detections)
+    clinical_object_cues = clinical_object_cues_from_detections(detections)
 
     print(f"Video: {video_path}")
     print(f"Detections: {len(detections)}")
     print(f"Dangerous objects: {dangerous_objects}")
+    print(f"Clinical object cues: {clinical_object_cues}")
 
     for detection in detections:
         print(

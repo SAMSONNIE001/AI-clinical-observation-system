@@ -11,6 +11,10 @@ DANGEROUS_COCO_OBJECTS = {
     "scissors": "scissors",
 }
 
+CLINICAL_CAUTION_COCO_OBJECTS = {
+    "tie": "possible_ligature_cue",
+}
+
 
 @dataclass(frozen=True)
 class ObjectDetection:
@@ -105,3 +109,14 @@ def dangerous_objects_from_detections(
         if detection.label in DANGEROUS_COCO_OBJECTS
     }
     return sorted(dangerous_objects)
+
+
+def clinical_object_cues_from_detections(
+    detections: list[ObjectDetection],
+) -> list[str]:
+    cues = {
+        CLINICAL_CAUTION_COCO_OBJECTS[detection.label]
+        for detection in detections
+        if detection.label in CLINICAL_CAUTION_COCO_OBJECTS
+    }
+    return sorted(cues)

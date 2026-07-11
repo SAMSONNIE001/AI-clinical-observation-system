@@ -17,6 +17,10 @@ def main() -> int:
             action_group="normal_activity",
             dangerous_objects=["scissors"],
         ),
+        "clinical_object_cue": RiskSignalSnapshot(
+            action_group="normal_activity",
+            clinical_object_cues=["possible_ligature_cue"],
+        ),
         "high_movement": RiskSignalSnapshot(
             action_group="normal_activity",
             pose_summary=PoseMovementSummary(

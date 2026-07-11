@@ -144,6 +144,10 @@ python scripts/test_pretrained_object_detector.py dataset/raw/sharp_object_detec
 YOLO weights are stored locally at `ml/models/yolov8n.pt` and ignored by Git.
 Normal API/live-camera runs do not auto-download weights; run the download
 script once during setup.
+The public YOLO model currently treats `knife` and `scissors` as confirmed
+dangerous object cues and `tie` as a lower-confidence clinical caution cue for
+possible ligature-like risk. Caution cues support review but are not the same as
+confirmed sharp-object detection.
 
 MediaPipe pose movement can be tested separately:
 
