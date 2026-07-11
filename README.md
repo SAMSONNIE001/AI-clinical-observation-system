@@ -156,6 +156,11 @@ pip install -r backend/requirements-vision.txt
 python scripts/test_mediapipe_pose.py dataset/raw/pacing/pacing_001.mp4
 ```
 
+This pose path expects a MediaPipe package that provides `mp.solutions.pose`.
+If your installed MediaPipe package only exposes the newer `tasks` API, the
+combined pipeline will report pose analysis as unavailable and continue with
+YOLO/object cues and the action classifier.
+
 The combined pipeline can be tested with:
 
 ```text

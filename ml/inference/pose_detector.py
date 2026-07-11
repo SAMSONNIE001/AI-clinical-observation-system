@@ -27,6 +27,15 @@ class MediaPipePoseMovementAnalyzer:
     ) -> None:
         import mediapipe as mp
 
+        if not hasattr(mp, "solutions") or not hasattr(mp.solutions, "pose"):
+            version = getattr(mp, "__version__", "unknown")
+            raise RuntimeError(
+                "MediaPipe Pose is unavailable in the installed mediapipe "
+                f"package (version={version}). Install a MediaPipe build that "
+                "provides mp.solutions.pose, or run the pipeline with pose "
+                "analysis disabled."
+            )
+
         self.mp_pose = mp.solutions.pose
         self.pose = self.mp_pose.Pose(
             static_image_mode=False,
