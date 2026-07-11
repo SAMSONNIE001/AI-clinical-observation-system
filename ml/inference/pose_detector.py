@@ -37,6 +37,7 @@ class MediaPipePoseMovementAnalyzer:
         self.backend = "solutions"
         self.pose = None
         self.landmarker = None
+        self._next_timestamp_ms = 0
 
         if hasattr(mp, "solutions") and hasattr(mp.solutions, "pose"):
             self.mp_pose = mp.solutions.pose
@@ -99,6 +100,7 @@ class MediaPipePoseMovementAnalyzer:
 
         try:
             frame_index = 0
+            latest_timestamp_ms = self._next_timestamp_ms
             while sampled < sample_count:
                 ok, frame = capture.read()
                 if not ok:
@@ -106,7 +108,10 @@ class MediaPipePoseMovementAnalyzer:
 
                 if frame_index % step == 0:
                     sampled += 1
-                    timestamp_ms = int((frame_index / fps) * 1000)
+                    timestamp_ms = self._next_timestamp_ms + int(
+                        (frame_index / fps) * 1000
+                    )
+                    latest_timestamp_ms = timestamp_ms
                     landmarks = self._extract_landmarks_for_video(
                         frame,
                         timestamp_ms,
@@ -117,6 +122,7 @@ class MediaPipePoseMovementAnalyzer:
                 frame_index += 1
         finally:
             capture.release()
+            self._next_timestamp_ms = latest_timestamp_ms + 1
 
         return summarize_pose_movement(sampled, landmarks_by_frame)
 
