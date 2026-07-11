@@ -57,7 +57,7 @@ The detailed 18-label classifier is too hard for the current dataset size. Train
 the grouped classifier first:
 
 ```text
-python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 3 --batch-size 1
+python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 8 --batch-size 1 --unfreeze-backbone --learning-rate 0.00005 --patience 2
 ```
 
 The first run may download pretrained weights. The output checkpoint is written
@@ -66,6 +66,11 @@ pipeline will use automatically when present.
 
 The trainer saves the best validation epoch, not just the last epoch. This
 matters when accuracy rises and then falls during later epochs.
+
+For small datasets, the trainer uses class-balanced loss, light training
+augmentation, random temporal sampling, weight decay, and early stopping. These
+settings reduce overfitting but do not replace the need for hybrid YOLO,
+MediaPipe, and rule-based safety checks.
 
 The fine-tuning workflow is:
 

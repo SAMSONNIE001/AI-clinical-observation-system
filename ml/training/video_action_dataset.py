@@ -1,4 +1,5 @@
 import json
+import random
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -28,10 +29,12 @@ class VideoActionDataset(Dataset):
         samples: list[VideoActionSample],
         clip_frames: int = 16,
         frame_size: int = 112,
+        training: bool = False,
     ) -> None:
         self.samples = samples
         self.clip_frames = clip_frames
         self.frame_size = frame_size
+        self.training = training
 
     def __len__(self) -> int:
         return len(self.samples)
@@ -42,6 +45,8 @@ class VideoActionDataset(Dataset):
             video_path=sample.video_path,
             clip_frames=self.clip_frames,
             frame_size=self.frame_size,
+            random_sampling=self.training,
+            augment=self.training,
         )
         label = torch.tensor(sample.label_index, dtype=torch.long)
         return video, label
@@ -97,6 +102,8 @@ def load_video_clip(
     video_path: Path,
     clip_frames: int = 16,
     frame_size: int = 112,
+    random_sampling: bool = False,
+    augment: bool = False,
 ) -> torch.Tensor:
     capture = cv2.VideoCapture(str(video_path))
     if not capture.isOpened():
@@ -107,8 +114,18 @@ def load_video_clip(
         capture.release()
         raise ValueError(f"Could not read frame count: {video_path}")
 
-    target_indices = set(np.linspace(0, frame_count - 1, num=clip_frames, dtype=int))
+    if random_sampling and frame_count > clip_frames:
+        window_size = random.randint(clip_frames, frame_count)
+        start_index = random.randint(0, frame_count - window_size)
+        stop_index = start_index + window_size - 1
+        target_indices = set(
+            np.linspace(start_index, stop_index, num=clip_frames, dtype=int)
+        )
+    else:
+        target_indices = set(np.linspace(0, frame_count - 1, num=clip_frames, dtype=int))
     frames: list[np.ndarray] = []
+    flip_horizontal = augment and random.random() < 0.5
+    brightness_scale = random.uniform(0.85, 1.15) if augment else 1.0
 
     try:
         frame_index = 0
@@ -118,6 +135,14 @@ def load_video_clip(
                 break
             if frame_index in target_indices:
                 resized = cv2.resize(frame, (frame_size, frame_size))
+                if flip_horizontal:
+                    resized = cv2.flip(resized, 1)
+                if brightness_scale != 1.0:
+                    resized = np.clip(
+                        resized.astype(np.float32) * brightness_scale,
+                        0,
+                        255,
+                    ).astype(np.uint8)
                 rgb = cv2.cvtColor(resized, cv2.COLOR_BGR2RGB)
                 frames.append(rgb)
             frame_index += 1

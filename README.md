@@ -156,7 +156,7 @@ The first pretrained video/action classifier fine-tuning path uses TorchVision
 first because the 18 detailed labels are too sparse for the current dataset:
 
 ```text
-python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 3 --batch-size 1
+python -m ml.training.train_video_action_classifier --label-mode grouped --epochs 8 --batch-size 1 --unfreeze-backbone --learning-rate 0.00005 --patience 2
 ```
 
 When `ml/models/video_action_grouped_classifier.pt` exists, the combined

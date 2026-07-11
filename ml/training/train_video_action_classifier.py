@@ -2,7 +2,7 @@ import argparse
 import copy
 import json
 import random
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import torch
@@ -43,10 +43,22 @@ def main() -> None:
     parser.add_argument("--epochs", type=int, default=3)
     parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--learning-rate", type=float, default=1e-3)
+    parser.add_argument("--weight-decay", type=float, default=1e-2)
     parser.add_argument("--clip-frames", type=int, default=16)
     parser.add_argument("--frame-size", type=int, default=112)
     parser.add_argument("--max-per-label", type=int, default=None)
     parser.add_argument("--test-every", type=int, default=5)
+    parser.add_argument(
+        "--patience",
+        type=int,
+        default=3,
+        help="Stop after this many epochs without validation improvement.",
+    )
+    parser.add_argument(
+        "--no-class-weights",
+        action="store_true",
+        help="Disable inverse-frequency class weights in the loss function.",
+    )
     parser.add_argument(
         "--no-pretrained",
         action="store_true",
@@ -92,11 +104,13 @@ def main() -> None:
         train_samples,
         clip_frames=args.clip_frames,
         frame_size=args.frame_size,
+        training=True,
     )
     test_dataset = VideoActionDataset(
         test_samples,
         clip_frames=args.clip_frames,
         frame_size=args.frame_size,
+        training=False,
     )
     train_loader = DataLoader(
         train_dataset,
@@ -121,13 +135,23 @@ def main() -> None:
     trainable_parameters = [
         parameter for parameter in model.parameters() if parameter.requires_grad
     ]
-    optimizer = torch.optim.AdamW(trainable_parameters, lr=args.learning_rate)
-    loss_function = nn.CrossEntropyLoss()
+    optimizer = torch.optim.AdamW(
+        trainable_parameters,
+        lr=args.learning_rate,
+        weight_decay=args.weight_decay,
+    )
+    class_weights = (
+        None
+        if args.no_class_weights
+        else class_weight_tensor(train_samples, num_classes=len(labels), device=device)
+    )
+    loss_function = nn.CrossEntropyLoss(weight=class_weights)
 
     best_accuracy = -1.0
     best_epoch = 0
     best_model_state = copy.deepcopy(model.state_dict())
     history = []
+    epochs_without_improvement = 0
     for epoch in range(1, args.epochs + 1):
         train_loss = train_one_epoch(
             model=model,
@@ -148,11 +172,20 @@ def main() -> None:
             best_accuracy = accuracy
             best_epoch = epoch
             best_model_state = copy.deepcopy(model.state_dict())
+            epochs_without_improvement = 0
+        else:
+            epochs_without_improvement += 1
         print(
             f"epoch={epoch} "
             f"train_loss={train_loss:.4f} "
             f"test_accuracy={accuracy:.3f}"
         )
+        if epochs_without_improvement >= args.patience:
+            print(
+                f"early_stopping=True best_epoch={best_epoch} "
+                f"best_accuracy={best_accuracy:.3f}"
+            )
+            break
 
     save_checkpoint(
         output_path=args.output,
@@ -165,6 +198,7 @@ def main() -> None:
         best_accuracy=best_accuracy,
         best_epoch=best_epoch,
         history=history,
+        class_weights_enabled=class_weights is not None,
         clip_frames=args.clip_frames,
         frame_size=args.frame_size,
         label_mode=args.label_mode,
@@ -237,6 +271,20 @@ def evaluate(model: nn.Module, loader: DataLoader, device: torch.device) -> floa
     return correct / total if total else 0.0
 
 
+def class_weight_tensor(
+    samples: list[VideoActionSample],
+    num_classes: int,
+    device: torch.device,
+) -> torch.Tensor:
+    counts = Counter(sample.label_index for sample in samples)
+    total = sum(counts.values())
+    weights = []
+    for label_index in range(num_classes):
+        count = counts.get(label_index, 1)
+        weights.append(total / (num_classes * count))
+    return torch.tensor(weights, dtype=torch.float32, device=device)
+
+
 def save_checkpoint(
     output_path: Path,
     label_map_output: Path,
@@ -248,6 +296,7 @@ def save_checkpoint(
     best_accuracy: float,
     best_epoch: int,
     history: list[dict[str, float | int]],
+    class_weights_enabled: bool,
     clip_frames: int,
     frame_size: int,
     label_mode: str,
@@ -264,6 +313,7 @@ def save_checkpoint(
             "best_accuracy": best_accuracy,
             "best_epoch": best_epoch,
             "history": history,
+            "class_weights_enabled": class_weights_enabled,
             "clip_frames": clip_frames,
             "frame_size": frame_size,
         },
