@@ -3,11 +3,10 @@ from pathlib import Path
 from app.domain.enums import BehaviourType
 from app.domain.risk import (
     alarm_required_for_behaviour,
-    alarm_required_for_objects,
     risk_level_for_behaviour,
 )
 from ml.inference.predictor import BaselineVideoClassifierPredictor, PredictionResult
-from ml.training.label_groups import action_group_alarm_required
+from ml.inference.risk_engine import RiskSignalSnapshot, assess_risk
 
 
 class PretrainedClinicalObservationPipeline:
@@ -46,7 +45,7 @@ class PretrainedClinicalObservationPipeline:
             self._predict_action(video_path)
         )
         dangerous_objects, object_status = self._detect_dangerous_objects(video_path)
-        pose_status = self._analyze_pose(video_path)
+        pose_summary, pose_status = self._analyze_pose(video_path)
         predicted_label = (
             action_label
             if action_label_mode == "detailed"
@@ -63,22 +62,19 @@ class PretrainedClinicalObservationPipeline:
             if predicted_label is not None
             else None
         )
-        object_alarm_required = alarm_required_for_objects(dangerous_objects)
         behaviour_alarm_required = alarm_required_for_behaviour(behaviour)
-        action_group_alarm = (
-            action_group_alarm_required(action_label)
-            if action_label_mode == "grouped"
-            else False
+        risk_assessment = assess_risk(
+            RiskSignalSnapshot(
+                action_group=action_label if action_label_mode == "grouped" else None,
+                action_confidence=action_confidence,
+                dangerous_objects=dangerous_objects,
+                pose_summary=pose_summary,
+            )
         )
-        alarm_required = (
-            behaviour_alarm_required
-            or object_alarm_required
-            or action_group_alarm
-        )
+        alarm_required = behaviour_alarm_required or risk_assessment.alarm_required
         alarm_reason = self._alarm_reason(
             behaviour_alarm_required=behaviour_alarm_required,
-            object_alarm_required=object_alarm_required,
-            action_group_alarm=action_group_alarm,
+            risk_assessment=risk_assessment,
         )
 
         return PredictionResult(
@@ -98,7 +94,10 @@ class PretrainedClinicalObservationPipeline:
                 f"Action classifier status: {action_status}"
                 f"{self._action_label_message(action_label, action_label_mode)}. "
                 f"Object detector status: {object_status}. "
-                f"Pose analyzer status: {pose_status}."
+                f"Pose analyzer status: {pose_status}. "
+                f"Risk engine: group={risk_assessment.risk_group} "
+                f"level={risk_assessment.risk_level} "
+                f"summary={risk_assessment.observation_summary}"
             ),
         )
 
@@ -155,11 +154,11 @@ class PretrainedClinicalObservationPipeline:
             self._object_detector_error = f"unavailable ({exc})"
             return [], self._object_detector_error
 
-    def _analyze_pose(self, video_path: Path) -> str:
+    def _analyze_pose(self, video_path: Path):
         if not self.enable_pose:
-            return "disabled"
+            return None, "disabled"
         if self._pose_analyzer_error is not None:
-            return self._pose_analyzer_error
+            return None, self._pose_analyzer_error
 
         try:
             if self._pose_analyzer is None:
@@ -168,7 +167,7 @@ class PretrainedClinicalObservationPipeline:
                 self._pose_analyzer = MediaPipePoseMovementAnalyzer()
 
             summary = self._pose_analyzer.analyze_video(video_path)
-            return (
+            return summary, (
                 "ok "
                 f"coverage={summary.pose_coverage:.2f} "
                 f"motion={summary.mean_motion:.3f} "
@@ -176,7 +175,7 @@ class PretrainedClinicalObservationPipeline:
             )
         except Exception as exc:
             self._pose_analyzer_error = f"unavailable ({exc})"
-            return self._pose_analyzer_error
+            return None, self._pose_analyzer_error
 
     def _model_version(
         self,
@@ -194,15 +193,12 @@ class PretrainedClinicalObservationPipeline:
     def _alarm_reason(
         self,
         behaviour_alarm_required: bool,
-        object_alarm_required: bool,
-        action_group_alarm: bool,
+        risk_assessment,
     ) -> str | None:
-        if behaviour_alarm_required and object_alarm_required:
-            return "High-risk behaviour and dangerous object detected."
-        if object_alarm_required:
-            return "Dangerous object detected."
-        if action_group_alarm:
-            return "High-risk action group detected."
+        if behaviour_alarm_required and risk_assessment.alarm_required:
+            return "High-risk behaviour and structured risk signal detected."
+        if risk_assessment.alarm_required:
+            return risk_assessment.observation_summary
         if behaviour_alarm_required:
             return "High-risk behaviour detected."
         return None

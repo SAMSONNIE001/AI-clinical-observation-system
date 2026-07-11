@@ -32,6 +32,7 @@ The current pipeline combines:
 - baseline video classifier,
 - YOLO object detector when available,
 - MediaPipe pose movement analyzer when available,
+- structured risk engine for interpretable alarm decisions,
 - alarm logic for high-risk behavior and dangerous objects.
 
 This is the transition layer between the early baseline and the stronger
@@ -71,6 +72,20 @@ For small datasets, the trainer uses class-balanced loss, light training
 augmentation, random temporal sampling, weight decay, and early stopping. These
 settings reduce overfitting but do not replace the need for hybrid YOLO,
 MediaPipe, and rule-based safety checks.
+
+## Structured Risk Engine
+
+The current architecture now includes a structured risk engine. It takes signals
+from YOLO, MediaPipe, and the grouped action classifier, then returns:
+
+- risk group,
+- risk level,
+- alarm decision,
+- reason list,
+- observation summary.
+
+This lets the live-camera system make safety decisions from interpretable
+signals instead of depending only on a raw video classifier.
 
 The fine-tuning workflow is:
 

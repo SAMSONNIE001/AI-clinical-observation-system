@@ -151,6 +151,12 @@ The combined pipeline can be tested with:
 python scripts/test_clinical_pipeline.py dataset/raw/pacing/pacing_001.mp4
 ```
 
+The structured risk engine can be tested without loading YOLO or MediaPipe:
+
+```text
+python scripts/test_risk_engine.py
+```
+
 The first pretrained video/action classifier fine-tuning path uses TorchVision
 `r3d_18` with a new project-specific classification head. Train grouped labels
 first because the 18 detailed labels are too sparse for the current dataset:
