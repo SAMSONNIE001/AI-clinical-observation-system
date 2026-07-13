@@ -2,6 +2,7 @@ from fastapi import FastAPI
 
 from app.api.v1.router import api_router
 from app.core.config import settings
+from app.core.setup_checks import gather_startup_warnings
 
 
 app = FastAPI(
@@ -11,6 +12,13 @@ app = FastAPI(
 )
 
 app.include_router(api_router, prefix=settings.api_v1_prefix)
+
+
+@app.on_event("startup")
+def on_startup() -> None:
+    warnings = gather_startup_warnings()
+    for warning in warnings:
+        print(f"WARNING: {warning}")
 
 
 @app.get("/")

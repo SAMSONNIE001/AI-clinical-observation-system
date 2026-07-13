@@ -225,6 +225,34 @@ staff-review draft note from the structured risk result:
 python scripts/test_detection_observation_workflow.py
 ```
 
+## New project helpers
+
+- `tests/test_api.py` contains backend tests for the FastAPI routes and dataset service.
+- `scripts/check_setup.py` checks for required ML artifacts and optional detection dependencies.
+- `frontend/` now contains a minimal static dashboard prototype with `index.html`, `app.js`, and `styles.css`.
+
+Use the frontend locally with a static web server:
+
+```text
+cd frontend
+python -m http.server 8080
+```
+
+Then open `http://localhost:8080` in your browser and point the dashboard at the backend on `http://localhost:8000`.
+
+## Running the new checks and tests
+
+```text
+python scripts/check_setup.py
+python -m unittest discover tests
+```
+
+Or with pytest if installed:
+
+```text
+pytest tests
+```
+
 ## Research Direction
 
 Human-in-the-loop AI-assisted clinical observation for mental health and care settings using computer vision and automated documentation.

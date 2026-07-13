@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Clinical Observation Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>AI Clinical Observation Dashboard</h1>
+      <section id="status-section">
+        <h2>Backend Status</h2>
+        <button id="health-check-button">Check API health</button>
+        <pre id="health-output">Waiting for health check...</pre>
+      </section>
+
+      <section id="notes-section">
+        <h2>Generate draft observation note</h2>
+        <form id="generate-note-form">
+          <label>
+            Patient ID
+            <input type="number" name="patient_id" value="1" required />
+          </label>
+          <label>
+            Video ID
+            <input type="text" name="video_id" value="sample_video" required />
+          </label>
+          <label>
+            Video path
+            <input type="text" name="video_path" value="dataset/raw/pacing/pacing_001.mp4" required />
+          </label>
+          <label>
+            Camera ID
+            <input type="text" name="camera_id" value="camera-1" />
+          </label>
+          <label>
+            Additional context
+            <textarea name="additional_context" rows="3"></textarea>
+          </label>
+          <button type="submit">Generate note from detection</button>
+        </form>
+        <pre id="note-output">Submit the form to generate a draft note.</pre>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
