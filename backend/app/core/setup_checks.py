@@ -12,6 +12,7 @@ OPTIONAL_DEPENDENCIES = [
     ("ultralytics", "Ultralytics YOLO"),
     ("mediapipe", "MediaPipe"),
     ("cv2", "OpenCV"),
+    ("openai", "OpenAI Python SDK"),
 ]
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]

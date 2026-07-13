@@ -1,7 +1,9 @@
+import io
+import os
 import sys
 import unittest
 from pathlib import Path
-from tempfile import TemporaryDirectory
+from tempfile import NamedTemporaryFile, TemporaryDirectory
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -47,6 +49,33 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(data["behaviour"], "walking")
         self.assertIn("note", data)
 
+    @patch("app.services.observation_note_service.openai.ChatCompletion.create")
+    def test_generate_observation_note_uses_llm(self, mock_chat_completion) -> None:
+        mock_chat_completion.return_value = {
+            "choices": [
+                {"message": {"content": "LLM draft note: Patient 1 was observed walking."}}
+            ]
+        }
+        payload = {
+            "patient_id": 1,
+            "session_id": 10,
+            "behaviour": "walking",
+            "confidence": 0.85,
+            "observed_at": "2026-01-01T12:30:00Z",
+            "alert_generated": False,
+        }
+
+        with patch.dict(os.environ, {"OPENAI_API_KEY": "test-openai-key"}, clear=False):
+            with patch("app.services.observation_note_service.USE_LLM_NOTE_GEN", True):
+                response = self.client.post("/api/v1/observation-notes/generate", json=payload)
+
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        self.assertEqual(data["patient_id"], 1)
+        self.assertEqual(data["behaviour"], "walking")
+        self.assertEqual(data["note"], "LLM draft note: Patient 1 was observed walking.")
+        self.assertTrue(mock_chat_completion.called)
+
     def test_detection_predict_missing_video(self) -> None:
         response = self.client.post(
             "/api/v1/detection/predict",
@@ -69,6 +98,20 @@ class ApiTests(unittest.TestCase):
         self.assertIn("detection", data)
         self.assertIn("observation_note", data)
         self.assertEqual(data["observation_note"]["patient_id"], 1)
+
+    def test_video_upload(self) -> None:
+        with NamedTemporaryFile(suffix=".mp4", delete=False) as temp_file:
+            temp_file.write(b"fakevideo")
+            temp_file.flush()
+            with open(temp_file.name, "rb") as payload_file:
+                response = self.client.post(
+                    "/api/v1/videos/upload",
+                    files={"file": (Path(temp_file.name).name, payload_file, "video/mp4")},
+                )
+        self.assertEqual(response.status_code, 201)
+        data = response.json()
+        self.assertEqual(data["original_filename"], Path(temp_file.name).name)
+        self.assertTrue(data["stored_filename"].endswith(".mp4"))
 
 
 class DatasetServiceTests(unittest.TestCase):
@@ -112,3 +155,32 @@ class DatasetServiceTests(unittest.TestCase):
 
         with self.assertRaises(Exception):
             export_training_manifest()
+
+    def test_video_record_and_annotation_routes(self) -> None:
+        from app.schemas.dataset import VideoAnnotationCreate
+
+        record_payload = VideoRecordCreate(
+            video_id="video_002",
+            filename="video_002.mp4",
+            behaviour_type="sitting",
+            category="normal",
+            scenario_name="test scenario",
+            duration_seconds=5.0,
+            environment="ward",
+        )
+        create_video_record(record_payload)
+
+        annotation_payload = VideoAnnotationCreate(
+            video_id="video_002",
+            behaviour="sitting",
+            start_time_seconds=0.5,
+            end_time_seconds=3.0,
+            annotated_by="tester",
+        )
+        from app.services.dataset_service import create_video_annotation, list_video_annotations
+
+        annotation = create_video_annotation(annotation_payload)
+        self.assertEqual(annotation.video_id, "video_002")
+        annotations = list_video_annotations(video_id="video_002")
+        self.assertEqual(len(annotations), 1)
+        self.assertEqual(annotations[0].behaviour, "sitting")

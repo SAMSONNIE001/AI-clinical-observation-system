@@ -240,7 +240,66 @@ python -m http.server 8080
 
 Then open `http://localhost:8080` in your browser and point the dashboard at the backend on `http://localhost:8000`.
 
-## Running the new checks and tests
+## Optional model and LLM setup
+
+If you want YOLO and MediaPipe support, run:
+
+```text
+python scripts/setup_models.py
+```
+
+This downloads the optional model artifacts into `ml/models/yolov8n.pt` and `ml/models/pose_landmarker_full.task`.
+
+### OpenAI / LLM note generation
+
+The backend supports OpenAI-enhanced draft observation notes when the `openai` package is installed and an API key is available.
+
+You can set the key using an environment variable:
+
+```text
+export OPENAI_API_KEY="your_api_key_here"
+```
+
+or on Windows PowerShell:
+
+```text
+$env:OPENAI_API_KEY = "your_api_key_here"
+```
+
+You can also place the key in a local file at `backend/apikey`.
+The backend will automatically read that file if `OPENAI_API_KEY` is not already set.
+
+If the OpenAI client is unavailable or no key is configured, the backend still generates draft notes with the built-in template fallback.
+
+## Running the backend locally
+
+From the project root, install dependencies and start the API:
+
+```text
+python -m pip install -r backend/requirements.txt
+cd backend
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+Then access the API at `http://localhost:8000` and the v1 routes under `http://localhost:8000/api/v1`.
+
+### Example detection-to-note demo request
+
+```text
+curl -X POST http://localhost:8000/api/v1/observation-notes/generate-from-detection \
+  -H "Content-Type: application/json" \
+  -d '{
+    "patient_id": 1,
+    "video_id": "pacing_001",
+    "video_path": "dataset/raw/pacing/pacing_001.mp4",
+    "camera_id": "camera-1",
+    "additional_context": "Test note generation from detection."
+  }'
+```
+
+This route runs the detection pipeline on the provided video, then generates a draft observation note from the structured risk result.
+
+## Running checks and tests
 
 ```text
 python scripts/check_setup.py
